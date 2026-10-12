@@ -68,52 +68,58 @@ export default function SiteMenu({ items }: Props) {
         </span>
       </button>
 
-      {open && (
+      <div className={open ? 'fixed inset-0 z-50' : 'pointer-events-none fixed inset-0 z-50'}>
+        <button
+          type="button"
+          aria-label="Close menu"
+          tabIndex={-1}
+          className={`absolute inset-0 bg-charcoal/40 transition-opacity duration-300 ease-out ${open ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setOpen(false)}
+        />
         <div
           id="site-menu"
           ref={dialogRef}
           role="dialog"
-          aria-modal="true"
+          aria-modal={open}
+          aria-hidden={!open}
+          inert={!open}
           aria-label="Site navigation"
-          className="fixed inset-0 z-50 grid bg-botanical-deep text-canvas"
+          className={`absolute inset-y-0 right-0 flex h-dvh w-[30vw] min-w-0 max-md:w-[min(22rem,100%)] flex-col bg-botanical-deep text-canvas transition-transform duration-300 ease-out ${open ? 'translate-x-0' : 'translate-x-full'}`}
         >
-          <div className="site-container flex min-h-screen flex-col py-5 md:py-8">
-            <div className="flex items-center justify-between border-b border-canvas/20 pb-5">
-              <a href="/" className="font-display text-2xl no-underline">
-                Greenleaf Co
-              </a>
-              <button
-                type="button"
-                className="min-h-11 px-2 text-xs font-bold tracking-[0.12em] uppercase"
-                onClick={() => setOpen(false)}
-              >
-                Close
-              </button>
-            </div>
-            <nav aria-label="Expanded navigation" className="my-auto py-12">
-              <ul className="grid gap-2">
-                {items.map((item, index) => (
-                  <li key={item.href}>
-                    <a
-                      href={item.href}
-                      className="group flex items-baseline gap-5 border-b border-canvas/15 py-4 font-display text-[clamp(2.3rem,7vw,6rem)] leading-none no-underline"
-                    >
-                      <span className="font-sans text-[0.65rem] tracking-widest text-sage">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <span>{item.label}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-            <p className="max-w-md text-sm leading-6 text-sage">
-              Premium produce for professional kitchens, hospitality, retail,
-              and distribution.
-            </p>
+          <div className="flex shrink-0 items-center justify-between border-b border-canvas/20 px-6 py-5">
+            <a href="/" className="font-display text-xl no-underline">
+              Greenleaf Co
+            </a>
+            <button
+              type="button"
+              className="min-h-11 px-2 text-xs font-bold tracking-[0.12em] uppercase"
+              onClick={() => setOpen(false)}
+            >
+              Close
+            </button>
           </div>
+          <nav aria-label="Expanded navigation" className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-4">
+            <ul className="grid">
+              {items.map((item, index) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    className="group flex items-baseline gap-3 border-b border-canvas/15 py-3 text-base leading-normal no-underline"
+                  >
+                    <span className="text-xs tracking-widest text-sage">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span>{item.label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <p className="shrink-0 px-6 py-5 text-sm leading-6 text-sage">
+            Premium produce for professional kitchens, hospitality, retail, and distribution.
+          </p>
         </div>
-      )}
+      </div>
     </>
   );
 }
