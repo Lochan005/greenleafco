@@ -31,14 +31,16 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
   image={socialImage}
 >
   <main>
-    <section class="site-container grid gap-8 py-8 md:grid-cols-[1.05fr_0.95fr] md:items-end md:py-12">
-      <div class="py-8 md:py-16">
+    <section class="site-container grid items-center gap-5 overflow-hidden py-4 md:h-[calc(100svh-5rem)] md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-stretch md:gap-8 md:py-5">
+      <div>
         <p class="eyebrow">{homepage?.eyebrow ?? 'Premium produce · Professional supply'}</p>
-        <h1 class="display-title mt-6">{homepage?.heading ?? 'Produce with presence.'}</h1>
-        <p class="body-large mt-8">
+        <h1 class="display-title mt-3 text-[clamp(2.75rem,4.4vw,5.5rem)]">
+          {homepage?.heading ?? 'Produce with presence.'}
+        </h1>
+        <p class="body-large mt-4">
           {homepage?.introduction ?? 'An expressive range of exotic vegetables and specialty fresh produce, presented for chefs, hospitality teams, retailers, and professional buyers.'}
         </p>
-        <div class="mt-9 flex flex-wrap gap-3">
+        <div class="mt-5 flex flex-wrap gap-3">
           <a class="button button-primary" href="/products">Explore Our Produce</a>
           <a class="button button-secondary" href="/request-a-quote">Request a Quote</a>
         </div>
@@ -51,14 +53,14 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
             width="1200"
             height="1500"
             fetchpriority="high"
-            class="aspect-[4/5] h-full max-h-[46rem] w-full object-cover"
+            class="aspect-[4/5] w-full object-cover md:aspect-auto md:h-full md:min-h-0 md:max-h-full"
           />
         ) : (
           <MediaPlaceholder
             aspect="portrait"
             tone="dark"
             label="Hero produce photography pending"
-            class="md:max-h-[46rem]"
+            class="md:aspect-auto md:h-full md:min-h-0 md:max-h-full"
           />
         )
       }
