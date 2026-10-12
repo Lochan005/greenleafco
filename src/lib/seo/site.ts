@@ -2,6 +2,11 @@ import { PUBLIC_SITE_URL } from 'astro:env/client';
 
 export const siteName = 'Greenleaf Co';
 
+export const wholesalePhone = {
+  display: '+91 9972822077',
+  href: 'tel:+919972822077',
+} as const;
+
 export const primaryNav = [
   { href: '/products', label: 'Products' },
   { href: '/request-a-quote', label: 'Request a Quote' },

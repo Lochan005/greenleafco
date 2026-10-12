@@ -1,6 +1,6 @@
 ---
 import SiteMenu from '@/components/react/SiteMenu';
-import { secondaryNav, siteName } from '@/lib/seo/site';
+import { secondaryNav, siteName, wholesalePhone } from '@/lib/seo/site';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -16,7 +16,7 @@ const currentPath = Astro.url.pathname;
     </a>
 
     <nav aria-label="Primary" class="hidden md:block">
-      <ul class="flex items-center gap-8">
+      <ul class="flex items-center gap-4">
         <li>
           <a
             href="/products"
@@ -27,6 +27,15 @@ const currentPath = Astro.url.pathname;
           </a>
         </li>
         <li>
+          <a
+            class="button button-secondary"
+            href={wholesalePhone.href}
+            aria-label={`Call us at ${wholesalePhone.display}`}
+          >
+            Call Us
+          </a>
+        </li>
+        <li>
           <a class="button button-primary" href="/request-a-quote">
             Request a Quote
           </a>
@@ -34,7 +43,14 @@ const currentPath = Astro.url.pathname;
       </ul>
     </nav>
 
-    <div class="justify-self-end">
+    <div class="flex items-center justify-self-end gap-3">
+      <a
+        class="button button-secondary md:hidden"
+        href={wholesalePhone.href}
+        aria-label={`Call us at ${wholesalePhone.display}`}
+      >
+        Call Us
+      </a>
       <SiteMenu items={secondaryNav} client:load />
     </div>
   </div>
