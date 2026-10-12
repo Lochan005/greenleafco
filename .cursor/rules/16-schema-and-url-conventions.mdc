@@ -1,0 +1,49 @@
+---
+description: Shared naming, file placement, schema conventions, URL conventions, and data naming across the codebase
+alwaysApply: true
+---
+
+# Naming and File Conventions
+
+## Folders
+
+Use clear responsibility-based folders.
+Do not create nested folders that only contain one file unless the structure is expected to grow.
+
+## Type names
+
+Use PascalCase for public TypeScript types and interfaces where appropriate.
+Use clear domain names such as `Product`, `QuoteRequest`, `JournalEntry`.
+
+## Variables
+
+Use descriptive camelCase names.
+Avoid one-letter variables outside tiny local loops.
+
+## Constants
+
+Use named constants for reusable configuration and content keys.
+Do not scatter magic strings throughout templates.
+
+## Sanity fields
+
+Prefer predictable camelCase field names.
+Keep front-end mapping explicit when CMS naming differs.
+
+## URL conventions
+
+Use lowercase kebab-case paths.
+Examples:
+- `/who-we-serve`
+- `/request-a-quote`
+- `/products/microgreens`
+
+## Environment variables
+
+Use explicit names that indicate server/client exposure intent.
+Never expose secrets through public environment prefixes.
+
+## Imports
+
+Prefer project aliases when configured.
+Avoid deep relative import chains when a stable alias improves readability.

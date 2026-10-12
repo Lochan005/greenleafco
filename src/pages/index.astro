@@ -1,0 +1,221 @@
+---
+import JournalCard from '@/components/astro/JournalCard.astro';
+import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
+import ProductGrid from '@/components/astro/ProductGrid.astro';
+import QuoteCTA from '@/components/astro/QuoteCTA.astro';
+import SectionHeading from '@/components/astro/SectionHeading.astro';
+import { siteName } from '@/lib/seo/site';
+import { productCategories } from '@/lib/seo/site';
+import { getFeaturedProducts, getHomepage, getJournalEntries } from '@/lib/sanity/content';
+import { sanityImageUrl } from '@/lib/sanity/image';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const [fallbackProducts, fallbackJournalEntries, homepage] = await Promise.all([
+  getFeaturedProducts(),
+  getJournalEntries(),
+  getHomepage(),
+]);
+const featuredProducts = homepage?.featuredProducts?.length
+  ? homepage.featuredProducts
+  : fallbackProducts;
+const journalEntries = homepage?.featuredJournalEntries?.length
+  ? homepage.featuredJournalEntries
+  : fallbackJournalEntries;
+const heroImage = sanityImageUrl(homepage?.heroImage, 1200, 1500);
+const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 1200, 630);
+---
+
+<BaseLayout
+  title={homepage?.seo?.title ?? siteName}
+  description={homepage?.seo?.description ?? 'Explore premium exotic vegetables, herbs, microgreens, leafy greens, seasonal produce, and specialty ingredients for professional buyers.'}
+  image={socialImage}
+>
+  <main>
+    <section class="site-container grid gap-8 py-8 md:grid-cols-[1.05fr_0.95fr] md:items-end md:py-12">
+      <div class="py-8 md:py-16">
+        <p class="eyebrow">{homepage?.eyebrow ?? 'Premium produce · Professional supply'}</p>
+        <h1 class="display-title mt-6">{homepage?.heading ?? 'Produce with presence.'}</h1>
+        <p class="body-large mt-8">
+          {homepage?.introduction ?? 'An expressive range of exotic vegetables and specialty fresh produce, presented for chefs, hospitality teams, retailers, and professional buyers.'}
+        </p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a class="button button-primary" href="/products">Explore Our Produce</a>
+          <a class="button button-secondary" href="/request-a-quote">Request a Quote</a>
+        </div>
+      </div>
+      {
+        heroImage ? (
+          <img
+            src={heroImage}
+            alt={homepage?.heroImage?.alt || 'Specialty fresh produce'}
+            width="1200"
+            height="1500"
+            fetchpriority="high"
+            class="aspect-[4/5] h-full max-h-[46rem] w-full object-cover"
+          />
+        ) : (
+          <MediaPlaceholder
+            aspect="portrait"
+            tone="dark"
+            label="Hero produce photography pending"
+            class="md:max-h-[46rem]"
+          />
+        )
+      }
+    </section>
+
+    <section class="section-space border-y border-line">
+      <div class="site-container">
+        <SectionHeading
+          eyebrow="The range"
+          title="Six ways into a more distinctive menu."
+          description="Browse the catalogue by produce family, then enquire about the products and formats that fit your operation."
+        />
+        <div class="mt-12 grid border-t border-line sm:grid-cols-2 lg:grid-cols-3">
+          {
+            productCategories.map((category, index) => (
+              <a
+                href={`/products?category=${encodeURIComponent(category.toLowerCase().replaceAll(' ', '-'))}`}
+                class="group border-b border-line py-7 pr-5 no-underline sm:odd:border-r sm:even:pl-6 lg:border-r lg:pl-6 lg:first:pl-0 lg:nth-[3n]:border-r-0"
+              >
+                <span class="text-xs text-muted">{String(index + 1).padStart(2, '0')}</span>
+                <h3 class="mt-8 text-3xl leading-tight text-botanical">{category}</h3>
+                <span class="mt-5 inline-block text-sm font-bold group-hover:translate-x-1">Explore →</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="site-container">
+        <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <SectionHeading
+            eyebrow="Featured produce"
+            title="Ingredients worth a closer look."
+            description="A curated view of products selected in Sanity. Availability is always confirmed through a wholesale enquiry."
+          />
+          <a class="text-link shrink-0" href="/products">View all products</a>
+        </div>
+        <div class="mt-12">
+          <ProductGrid products={featuredProducts} />
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-paper">
+      <div class="site-container grid gap-10 py-16 md:grid-cols-[0.9fr_1.1fr] md:items-center md:py-28">
+        <MediaPlaceholder aspect="landscape" tone="earth" label="Professional kitchen photography pending" />
+        <div class="md:pl-[8vw]">
+          <p class="eyebrow">Who we serve</p>
+          <h2 class="section-title mt-4">Selected for people who work with produce.</h2>
+          <p class="body-large mt-6">
+            From menu development to retail presentation and distribution, the
+            conversation begins with how your business buys, handles, and uses fresh produce.
+          </p>
+          <ul class="mt-8 grid gap-3 border-t border-line pt-6 text-lg sm:grid-cols-2">
+            <li>Restaurants & chefs</li>
+            <li>Hotels & hospitality</li>
+            <li>Retail teams</li>
+            <li>Resellers & distributors</li>
+          </ul>
+          <a class="text-link mt-8" href="/who-we-serve">See who we work with</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="site-container grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <SectionHeading
+          eyebrow="A useful supply relationship"
+          title="Clarity from discovery to enquiry."
+          description="The site is structured around the things professional buyers need to understand: range, suitability, handling, and a direct route to a conversation."
+        />
+        <div class="grid gap-8 sm:grid-cols-2">
+          {
+            [
+              ['01', 'Quality focus', 'Product pages prioritise useful detail and the visual character of each ingredient.'],
+              ['02', 'Range clarity', 'Categories and attributes stay distinct, making the catalogue easier to navigate.'],
+              ['03', 'Culinary relevance', 'Applications and journal content connect produce to practical professional use.'],
+              ['04', 'Direct enquiry', 'A concise wholesale form keeps the next step clear and low friction.'],
+            ].map(([number, title, copy]) => (
+              <article class="border-t border-line pt-5">
+                <p class="text-xs text-muted">{number}</p>
+                <h3 class="mt-7 text-3xl">{title}</h3>
+                <p class="mt-3 leading-7 text-muted">{copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-botanical-deep text-canvas">
+      <div class="site-container grid gap-10 py-16 md:grid-cols-2 md:items-center md:py-28">
+        <div>
+          <p class="eyebrow !text-sage">From source to service</p>
+          <h2 class="section-title mt-4">A story grounded in the details.</h2>
+          <p class="mt-6 max-w-xl text-lg leading-8 text-sage">
+            Sourcing, growing, handling, and distribution information will be
+            added here when verified company details are supplied. The structure
+            is ready without making claims on the business’s behalf.
+          </p>
+          <a class="mt-8 inline-flex text-link !text-canvas" href="/about">About Greenleaf Co</a>
+        </div>
+        <MediaPlaceholder aspect="landscape" tone="sage" label="Growing and handling photography pending" />
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="site-container grid gap-12 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+        <div>
+          <SectionHeading
+            eyebrow="A practical view"
+            title="Sustainability starts with what we can control."
+            description="Responsible choices are best explained with evidence. This space is prepared for verified information about growing, resource use, packaging, waste, and distribution."
+          />
+          <a class="text-link mt-8" href="/sustainability">Our approach</a>
+        </div>
+        <MediaPlaceholder aspect="landscape" label="Sustainability photography pending" />
+      </div>
+    </section>
+
+    <section class="section-space border-t border-line">
+      <div class="site-container">
+        <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <SectionHeading
+            eyebrow="Culinary journal"
+            title="Ideas shaped around the ingredient."
+            description="Recipes, techniques, and product notes can help professional buyers see where distinctive produce fits."
+          />
+          <a class="text-link shrink-0" href="/journal">Visit the journal</a>
+        </div>
+        {
+          journalEntries.length > 0 ? (
+            <div class="mt-12 grid gap-8 md:grid-cols-2">
+              {journalEntries.slice(0, 2).map((entry) => <JournalCard entry={entry} />)}
+            </div>
+          ) : (
+            <div class="mt-12 grid gap-8 md:grid-cols-2">
+              <MediaPlaceholder aspect="landscape" tone="earth" label="Journal imagery pending" />
+              <div class="self-center py-8">
+                <p class="eyebrow">Content placeholder</p>
+                <h3 class="mt-4 text-4xl">The journal is ready for its first story.</h3>
+                <p class="mt-5 leading-7 text-muted">
+                  Publish recipes, ingredient notes, or kitchen inspiration in Sanity
+                  and they will appear here.
+                </p>
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    <QuoteCTA
+      title={homepage?.quoteCtaHeading}
+      description={homepage?.quoteCtaText}
+    />
+  </main>
+</BaseLayout>

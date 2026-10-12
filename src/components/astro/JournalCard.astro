@@ -1,0 +1,42 @@
+---
+import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
+import { sanityImageUrl } from '@/lib/sanity/image';
+import type { JournalEntry } from '@/types/journal';
+
+interface Props {
+  entry: JournalEntry;
+}
+
+const { entry } = Astro.props;
+const imageUrl = sanityImageUrl(entry.image, 960, 640);
+const date = entry.publishedAt
+  ? new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date(entry.publishedAt))
+  : undefined;
+---
+
+<article>
+  <a href={`/journal/${entry.slug}`} class="block overflow-hidden no-underline">
+    {
+      imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={entry.image?.alt || entry.title}
+          width="960"
+          height="640"
+          loading="lazy"
+          class="aspect-article w-full object-cover transition duration-500 hover:scale-[1.02]"
+        />
+      ) : (
+        <MediaPlaceholder aspect="landscape" tone="earth" label={`Image pending — ${entry.title}`} />
+      )
+    }
+  </a>
+  <div class="pt-5">
+    <p class="eyebrow">{date ?? 'Culinary journal'}</p>
+    <h3 class="mt-3 text-3xl leading-tight">
+      <a class="no-underline" href={`/journal/${entry.slug}`}>{entry.title}</a>
+    </h3>
+    {entry.excerpt && <p class="mt-3 leading-7 text-muted">{entry.excerpt}</p>}
+    <a class="text-link mt-4 text-sm" href={`/journal/${entry.slug}`}>Read story</a>
+  </div>
+</article>

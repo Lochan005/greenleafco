@@ -1,0 +1,59 @@
+---
+description: TypeScript quality, linting, testing, QA, error handling, and implementation discipline
+globs: src/**
+alwaysApply: false
+---
+
+# Code Quality and Testing
+
+## TypeScript
+
+Use strict typing.
+Avoid `any` unless there is a documented unavoidable integration boundary.
+
+Prefer explicit domain types for:
+- Product
+- ProductCategory
+- ProductAttribute
+- QuoteRequest
+- JournalEntry
+
+## Error handling
+
+Handle expected failures deliberately.
+Do not silently swallow errors.
+
+Server logs may contain technical detail.
+Client-facing errors should remain clear and safe.
+
+## Testing priority
+
+Test the highest-value paths first:
+- product catalogue rendering
+- product detail routes
+- filtering/search behavior
+- quote form validation
+- quote endpoint behavior
+- email submission success/failure
+- navigation/menu behavior
+
+## Visual QA
+
+After each major implementation stage, inspect the site visually.
+Check:
+- alignment
+- typography
+- image cropping
+- spacing
+- hierarchy
+- mobile behavior
+- focus states
+- empty states
+- loading/error states
+
+## Build discipline
+
+Do not make unrelated refactors while implementing a feature.
+Prefer small coherent changes.
+
+Before changing architecture, verify that the current requirement actually needs it.

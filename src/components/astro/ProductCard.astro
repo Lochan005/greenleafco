@@ -1,0 +1,58 @@
+---
+import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
+import { sanityImageUrl } from '@/lib/sanity/image';
+import type { Product } from '@/types/product';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const imageUrl = sanityImageUrl(product.primaryImage, 720, 900);
+const availabilityLabel = {
+  'available-now': 'Available now',
+  seasonal: 'Seasonal',
+  enquire: 'Enquire for availability',
+  unavailable: 'Currently unavailable',
+}[product.availability ?? 'enquire'];
+---
+
+<article class="group grid content-start">
+  <a href={`/products/${product.slug}`} class="block overflow-hidden no-underline">
+    {
+      imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={product.primaryImage?.alt || product.name}
+          width="720"
+          height="900"
+          loading="lazy"
+          class="aspect-product-card h-auto w-full object-cover transition duration-500 group-hover:scale-[1.025]"
+        />
+      ) : (
+        <MediaPlaceholder
+          aspect="portrait"
+          tone="sage"
+          label={`Image pending — ${product.name}`}
+        />
+      )
+    }
+  </a>
+  <div class="border-b border-line py-5">
+    <div class="flex flex-wrap items-start justify-between gap-3">
+      <div>
+        {product.category?.title && <p class="eyebrow">{product.category.title}</p>}
+        <h3 class="mt-2 text-3xl leading-none">
+          <a class="no-underline" href={`/products/${product.slug}`}>{product.name}</a>
+        </h3>
+      </div>
+      <span class="text-xs text-muted">{availabilityLabel}</span>
+    </div>
+    {product.shortDescription && (
+      <p class="mt-4 line-clamp-3 max-w-md text-sm leading-6 text-muted">
+        {product.shortDescription}
+      </p>
+    )}
+    <a class="text-link mt-5 text-sm" href={`/products/${product.slug}`}>View Product</a>
+  </div>
+</article>

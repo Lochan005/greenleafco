@@ -1,0 +1,126 @@
+---
+description: Core project context and non-negotiable product decisions for the B2B exotic produce website
+alwaysApply: true
+---
+
+# Project Context
+
+This project is a premium B2B website for a company supplying exotic vegetables and specialty fresh produce to restaurants, hotels, hospitality groups, retailers, resellers, distributors, and other professional buyers.
+
+## Core positioning
+
+The website must feel like a premium produce partner, not a generic grocery store and not a corporate enterprise portal.
+
+Primary promise:
+- Quality
+- Consistency
+- Product discovery
+- Professional supply
+- Reliable B2B relationships
+- Culinary relevance
+
+The site should help a visitor answer three questions quickly:
+1. What produce do you supply?
+2. Why should my business trust you?
+3. How do I enquire or request a wholesale quote?
+
+## Technology constraints
+
+Use this stack unless an explicit requirement changes it:
+- Astro for public pages and routing
+- TypeScript
+- Tailwind CSS
+- React only for genuinely interactive UI
+- Sanity for product/content management
+- GROQ for Sanity queries
+- Astro server/API endpoints for quote submission
+- Resend or Postmark for transactional quote emails; prefer Resend unless requirements say otherwise
+- Vercel for deployment
+- GitHub for source control
+
+Do not introduce Next.js, a second frontend framework, or an unnecessary backend application.
+
+## Content architecture
+
+Products are first-class content entities.
+
+Top-level product categories:
+- Exotic Vegetables
+- Herbs
+- Microgreens
+- Leafy Greens
+- Seasonal Produce
+- Specialty Produce
+
+Hydroponic is NOT a product category. It is an attribute or growing method/filter.
+Other attributes may include:
+- Available Now
+- Seasonal
+- Hydroponic
+- Chef Favourite
+- New Arrival
+- Suitable For
+
+## Commercial model
+
+This is B2B. Do not add consumer ecommerce patterns unless explicitly requested.
+
+Avoid:
+- Add to Cart
+- Checkout
+- Consumer pricing as the primary interaction
+- Product quantity steppers
+
+Prefer:
+- View Product
+- Request a Quote
+- Enquire About Availability
+- Ask About Pack Sizes
+- Talk to Our Wholesale Team
+
+## Page types
+
+The public site should support these reusable page types/templates:
+1. Home
+2. Products catalogue
+3. Product detail template
+4. Who We Serve
+5. About Us
+6. Sustainability
+7. Recipes & Inspiration / Culinary Journal
+8. Request a Quote / Contact
+
+Product detail pages must use one reusable template driven by Sanity data.
+
+## Visual direction
+
+The visual language is:
+- Exotic
+- Minimal
+- Premium
+- Natural
+- Editorial
+- B2B
+
+Product photography is the visual hero.
+Use a warm ivory/off-white base, botanical greens, charcoal, restrained earthy neutrals, and controlled produce-inspired accents.
+
+Avoid:
+- Loud gradients
+- Glassmorphism
+- Generic AI landing-page aesthetics
+- Excessive pills
+- Excessive rounded cards
+- Decorative blobs without purpose
+- Random icon grids
+- Overly green interfaces
+- Stock-looking corporate visuals
+- Dense dashboard-like layouts
+
+## Decision rule
+
+When adding or changing a section, component, animation, color, or layout, ask:
+
+"Does this improve understanding, product discovery, trust, or B2B enquiry conversion?"
+
+If not, prefer removing it.

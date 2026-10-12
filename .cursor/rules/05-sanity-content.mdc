@@ -1,0 +1,99 @@
+---
+description: Sanity Studio architecture, schemas, GROQ queries, content modeling, validation, and editorial workflow
+globs: studio/**
+alwaysApply: false
+---
+
+# Sanity Content Architecture
+
+## Source of truth
+
+Sanity owns content that the client may need to edit without code changes.
+
+Recommended managed content:
+- Products
+- Product categories
+- Journal/recipes
+- Testimonials
+- Site settings
+- Navigation settings if required
+- Homepage featured content
+- SEO fields for managed documents
+
+## Product schema
+
+A product should support, as appropriate:
+- name
+- slug
+- category
+- shortDescription
+- description
+- images
+- gallery ordering
+- availability
+- seasonal
+- growingMethod
+- badges/labels
+- suitableFor
+- packSizes
+- culinaryUses
+- storageAndHandling
+- relatedProducts
+- featured
+- SEO title
+- SEO description
+- SEO image
+
+Keep fields meaningful and avoid schema bloat.
+
+## Schema conventions
+
+Use:
+- clear titles
+- useful descriptions
+- validation
+- sensible initial values
+- ordering that matches the editor's workflow
+
+Required fields should be genuinely required.
+Do not make optional editorial fields mandatory just because the front end can display them.
+
+## GROQ
+
+Keep GROQ queries explicit and small.
+Do not overfetch every field for every component.
+
+Prefer reusable query fragments or centralized query helpers where that improves consistency.
+
+Do not fetch secrets or private fields into public page data.
+
+## Content relationships
+
+Use Sanity references when editorial relationships matter, such as:
+- related products
+- featured products
+- journal ingredients/products
+- testimonials
+
+Avoid duplicating the same content across multiple documents unless there is a clear reason.
+
+## Slugs
+
+Slugs must be:
+- lowercase
+- stable
+- readable
+- unique
+
+Never generate URLs from mutable display labels at runtime.
+
+## Missing content
+
+The frontend must tolerate missing optional content.
+If a product has no storage section, omit that section cleanly.
+Do not render empty headings.
+
+## Preview/editing
+
+Where practical, structure content so editors can understand what appears on the frontend.
+Avoid opaque field names.

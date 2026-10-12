@@ -1,0 +1,63 @@
+---
+description: Performance rules for Astro, hydration, images, fonts, network requests, caching, and Core Web Vitals
+globs: src/**
+alwaysApply: false
+---
+
+# Performance
+
+## Default strategy
+
+Prefer HTML over JavaScript.
+Prefer server-rendered content over client-side rendering.
+Prefer local/simple computation over large browser libraries.
+
+## Hydration
+
+Every React island must justify its hydration.
+Use the least aggressive Astro hydration directive that satisfies the UX.
+
+Do not hydrate static content.
+
+## JavaScript
+
+Avoid adding libraries for tasks that can be handled with:
+- native browser APIs
+- Astro
+- TypeScript
+- small utilities
+
+Avoid duplicated client-side data-fetching layers.
+
+## Images
+
+Optimize image dimensions and delivery.
+Set width/height or equivalent layout reservation.
+Lazy-load below-the-fold images where appropriate.
+Do not lazy-load the primary hero image when it harms LCP.
+
+## Fonts
+
+Use a restrained font stack.
+Avoid loading many font files or unnecessary weights.
+
+Prevent layout shifts caused by font loading.
+
+## Data fetching
+
+Fetch only the content required for the page.
+Avoid making multiple sequential requests for content that can be fetched together.
+
+## Caching
+
+Use appropriate caching/revalidation for content that changes less frequently.
+Do not introduce complex caching infrastructure without a real need.
+
+## Core Web Vitals mindset
+
+Protect:
+- LCP
+- CLS
+- INP
+
+Visual sophistication must not come at the cost of usability or loading performance.

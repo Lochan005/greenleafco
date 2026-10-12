@@ -1,0 +1,110 @@
+---
+description: Reusable component conventions, naming, states, UI composition, and consistency rules
+globs: src/**
+alwaysApply: false
+---
+
+# Component System
+
+## Component philosophy
+
+Components should be reusable, semantic, composable, and visually consistent.
+
+Before creating a new component, check whether an existing component can be extended without making it less clear.
+
+## Naming
+
+Use PascalCase for components.
+Use clear names that describe purpose, not appearance.
+
+Good:
+- `ProductCard`
+- `ProductGallery`
+- `QuoteCTA`
+- `SectionHeading`
+
+Avoid:
+- `FancyBox`
+- `GreenCard`
+- `CoolSection`
+
+## Variants
+
+Prefer explicit variants over duplicated components.
+
+Example concepts:
+- `Button variant="primary"`
+- `Button variant="secondary"`
+- `SectionHeading align="left"`
+
+Do not create dozens of boolean props for tiny visual differences.
+
+## States
+
+Interactive components must account for:
+- default
+- hover
+- focus-visible
+- active
+- disabled
+- loading
+- error
+- success
+- empty state
+
+Never rely on color alone to communicate state.
+
+## Product cards
+
+Product cards should prioritize:
+1. product image
+2. product name
+3. category
+4. useful attribute badges
+5. concise description
+6. clear action
+
+Do not clutter cards with all product metadata.
+
+## Product detail
+
+Product pages should feel editorial and informative rather than like marketplace listings.
+
+A product detail view should be able to support:
+- image gallery
+- name
+- category
+- description
+- availability
+- attributes
+- pack sizes
+- culinary uses
+- storage/handling
+- suitable-for audiences
+- growing method where applicable
+- related products
+- request quote CTA
+
+Render sections only when content exists.
+Do not show empty placeholders for missing optional fields.
+
+## Navigation
+
+Primary desktop header:
+Logo | Products | Request a Quote | Menu
+
+Do not expose every page in the header.
+Secondary navigation belongs in the menu.
+
+Mobile navigation should feel deliberate and premium, not like an unstyled default drawer.
+
+## Cards and grids
+
+Avoid making every section a card grid.
+Use editorial compositions, split layouts, image/text combinations, and full-bleed areas where appropriate.
+
+## Empty states
+
+Empty catalogue/filter states must explain the situation and offer the next useful action.
+Example:
+"We could not find a match. Try another category or enquire with our wholesale team."

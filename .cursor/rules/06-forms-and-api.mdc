@@ -1,0 +1,85 @@
+---
+description: Quote forms, API endpoints, validation, email delivery, anti-spam, and future persistence boundaries
+globs: src/**
+alwaysApply: false
+---
+
+# Forms and API
+
+## Quote form goal
+
+The quote form should collect enough information for a wholesale response without creating unnecessary friction.
+
+Recommended fields:
+- name
+- company
+- email
+- phone
+- business type
+- products of interest
+- quantity/requirement
+- delivery location
+- message
+
+Only require fields that are essential for the workflow.
+
+## Submission flow
+
+Preferred flow:
+Visitor -> form -> Astro server endpoint -> validation -> spam checks -> email provider -> wholesale desk
+
+Use Resend by default unless the project explicitly chooses Postmark.
+
+## Validation
+
+Validate on the server even if the client validates.
+
+Validate:
+- required fields
+- email format
+- string lengths
+- reasonable payload sizes
+- allowed values for select fields
+
+Trim and normalize strings before processing.
+
+Never trust client-provided content.
+
+## Security
+
+Never expose:
+- email API keys
+- Sanity private tokens
+- database credentials
+- environment secrets
+
+Use environment variables.
+
+Return generic errors to the client.
+Do not leak stack traces or internal service errors.
+
+## Anti-spam
+
+Add proportionate protection such as:
+- honeypot field
+- timing checks where appropriate
+- server-side rate limiting if available
+- CAPTCHA only when spam volume warrants it
+
+Do not make the form hostile to legitimate B2B users.
+
+## Success state
+
+After success, make the outcome clear.
+Example:
+"Thanks. Your enquiry has been received. Our wholesale team will get back to you shortly."
+
+Avoid showing a fake success message before the server confirms delivery.
+
+## Future database
+
+Do not add Postgres merely because it may be useful later.
+
+When enquiry search, auditability, portal accounts, or workflows genuinely require persistence, add Neon/Postgres behind the same server boundary.
+
+The public pages should not become dependent on the future portal architecture.

@@ -1,0 +1,53 @@
+---
+description: Image strategy, asset handling, cropping, optimization, aspect ratios, and visual consistency
+globs: src/**
+alwaysApply: false
+---
+
+# Images and Assets
+
+## Product imagery is first-class content
+
+Treat product images as core content, not decorative filler.
+
+Where Sanity is used, use Sanity's image pipeline/CDN and request appropriate sizes/crops.
+
+## Image roles
+
+Define consistent treatment for:
+- hero images
+- product thumbnails
+- product detail gallery
+- article/recipe imagery
+- testimonial or team images
+
+## Cropping
+
+Choose crop behavior intentionally.
+Do not use one universal `object-cover` rule for every photograph.
+
+Keep important produce centered or positioned according to the composition of the source image.
+
+## Aspect ratios
+
+Use consistent aspect ratio variants so catalogue grids remain aligned.
+
+Do not allow one product card to become dramatically taller solely because the source image has a different ratio.
+
+## Optimization
+
+Use responsive image sizes.
+Avoid shipping desktop-sized images to small screens.
+
+Prefer modern formats supported by the platform.
+
+Always reserve image space to avoid layout shift.
+
+## Placeholder strategy
+
+Do not use generic random stock images as final content.
+If an asset is missing during development, use a clearly identifiable placeholder and make the CMS field easy to replace.
+
+## Decorative imagery
+
+Decorative imagery must not compete with product discovery or CTA hierarchy.

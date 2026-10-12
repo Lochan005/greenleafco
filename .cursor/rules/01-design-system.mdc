@@ -1,0 +1,151 @@
+---
+description: Visual design system, brand direction, hierarchy, spacing, typography, color, surfaces, motion, and anti-patterns
+alwaysApply: true
+---
+
+# Design System
+
+## Brand character
+
+The site must communicate:
+- premium produce
+- freshness
+- expertise
+- confidence
+- culinary sophistication
+- natural quality
+- dependable B2B supply
+
+The design should feel editorial rather than template-driven.
+
+## Layout philosophy
+
+Use strong composition rather than decoration.
+
+Prefer:
+- generous whitespace
+- large photography
+- asymmetrical but controlled editorial grids
+- clear content hierarchy
+- intentional negative space
+- strong alignment
+- restrained borders and dividers
+
+Avoid:
+- every section becoming a centered card
+- repeated identical card grids
+- oversized rounded rectangles
+- excessive section backgrounds
+- decorative UI with no semantic purpose
+
+## Typography
+
+Use a deliberate typography hierarchy.
+
+Recommended hierarchy:
+- Display: expressive but highly legible
+- H1: strong and concise
+- H2: clear section statement
+- H3: supporting structure
+- Body: highly readable
+- Eyebrow/label: restrained uppercase or small utility style
+
+Keep headings short whenever possible.
+Do not use oversized headings just to fill space.
+
+## Color system
+
+Base palette should remain restrained:
+- warm ivory/off-white for main canvas
+- deep botanical green for brand anchor
+- charcoal for primary text
+- muted neutrals for supporting UI
+- restrained produce-inspired accent colors for emphasis only
+
+Never create a rainbow interface because the catalogue contains colorful produce.
+
+Do not hard-code arbitrary colors repeatedly. Centralize reusable values in theme tokens / CSS variables.
+
+## Surfaces
+
+Use mostly flat surfaces with subtle contrast.
+
+Cards may use:
+- soft borders
+- subtle background shifts
+- understated shadows only when necessary
+
+Do not default to heavy shadows or floating glass panels.
+
+## Buttons
+
+Primary CTA:
+- visually strong
+- high contrast
+- concise label
+- obvious hover/focus state
+
+Primary B2B CTA examples:
+- Request a Quote
+- Enquire Now
+- Talk to Our Wholesale Team
+
+Secondary actions should be visually quieter.
+
+Avoid turning every link into a button.
+
+## Imagery
+
+Photography should carry visual emotion.
+Prefer:
+- macro produce
+- clean product photography
+- greenhouse/farm scenes
+- chefs using ingredients
+- professional produce handling
+- finished dishes
+
+Images should look intentional, high quality, and consistent.
+
+Do not mix random image ratios throughout the site.
+Define reusable image aspect-ratio variants for:
+- hero
+- product card
+- product detail gallery
+- article/recipe card
+
+## Motion
+
+Motion should be subtle and purposeful.
+Use it for:
+- page transitions where helpful
+- image reveal
+- hover affordances
+- navigation state
+- filter interaction
+
+Avoid:
+- excessive parallax
+- constant movement
+- bounce-heavy animations
+- long entrance animations
+- animation that delays content discovery
+
+Respect reduced-motion preferences.
+
+## Responsive composition
+
+Do not simply stack desktop blocks vertically on mobile.
+Re-compose sections when needed.
+
+Mobile priorities:
+1. Product clarity
+2. Readable typography
+3. Fast access to catalogue
+4. Fast access to enquiry
+5. Thumb-friendly controls
+
+## Decorative rule
+
+Every decorative visual must have a reason.
+If removing it does not hurt communication, remove it.

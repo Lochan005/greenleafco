@@ -1,0 +1,94 @@
+---
+description: Cursor implementation workflow, sequencing, inspection, verification, and anti-vibe-coding guardrails
+alwaysApply: true
+---
+
+# Implementation Workflow
+
+## Before coding
+
+1. Read the applicable `.mdc` rules.
+2. Inspect the existing repository structure.
+3. Inspect existing components before creating new ones.
+4. Inspect available assets before inventing replacements.
+5. Identify data dependencies before building UI that expects missing data.
+6. Confirm the page's goal and primary CTA.
+
+## Build order
+
+Recommended order:
+1. project scaffold
+2. design tokens and global styles
+3. global layout
+4. header/navigation
+5. homepage
+6. product catalogue
+7. product detail template
+8. who-we-serve
+9. about
+10. sustainability
+11. journal/recipes
+12. quote form/API
+13. SEO and structured metadata
+14. performance/accessibility polish
+15. visual QA
+
+## Anti-vibe-coding rule
+
+Do not generate a page by stacking generic sections until the screen looks full.
+Every section must have a communication or conversion role.
+
+Do not invent:
+- metrics
+- certifications
+- customer logos
+- reviews
+- sustainability claims
+- stock quantities
+- awards
+- years in business
+- delivery promises
+- technical farming claims
+
+Use explicit placeholders where client-supplied facts are missing.
+
+## Dynamic UI consistency
+
+Prevent common AI-generated visual bugs:
+- inconsistent spacing
+- random card heights
+- overflowing headings
+- weak text overlays
+- unreadable hero text
+- inconsistent image crops
+- duplicated responsive rules
+- arbitrary component widths
+- inconsistent button styles
+
+Use layout primitives, design tokens, controlled aspect ratios, max-width containers, and reusable components.
+
+## Content integrity
+
+Do not create fake copy that sounds factual.
+When factual content is missing, write neutral placeholder copy marked for replacement or leave the field optional.
+
+## Refactoring
+
+Refactor only when the change:
+- removes duplication
+- fixes a concrete bug
+- improves accessibility
+- materially improves maintainability
+- supports the required feature
+
+## Completion criteria
+
+A feature is not complete just because it renders.
+It must also be:
+- responsive
+- accessible
+- visually consistent
+- error-tolerant
+- SEO-aware where relevant
+- typed
+- maintainable

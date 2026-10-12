@@ -1,0 +1,39 @@
+---
+description: Analytics, consent-aware measurement, form conversion events, and basic production observability
+globs: src/**
+alwaysApply: false
+---
+
+# Analytics and Observability
+
+## Measurement goals
+
+Measure only behavior that helps improve the B2B website.
+Useful events include:
+- product viewed
+- category selected
+- search used
+- filter applied
+- quote form started
+- quote form submitted
+- quote form submission failed
+- journal article viewed
+
+## Privacy
+
+Use analytics in a privacy-conscious way and follow the requirements that apply to the deployment and audience.
+Do not collect unnecessary personal data.
+
+## Naming
+
+Use stable, human-readable event names.
+Do not send arbitrary payloads full of personal information.
+
+## Errors
+
+Production errors should be diagnosable without exposing sensitive information to visitors.
+
+## Conversion principle
+
+Analytics should support product discovery and B2B enquiry optimization.
+Do not turn the site into a tracking-heavy experience.

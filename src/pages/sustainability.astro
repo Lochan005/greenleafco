@@ -1,0 +1,87 @@
+---
+import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
+import QuoteCTA from '@/components/astro/QuoteCTA.astro';
+import SectionHeading from '@/components/astro/SectionHeading.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const themes = [
+  ['Responsible growing', 'A place for verified growing practices and the decisions behind them.'],
+  ['Resource use', 'A place for factual information about water, energy, or growing efficiency.'],
+  ['Waste reduction', 'A place to explain documented handling and waste-reduction practices.'],
+  ['Thoughtful packaging', 'A place for current packaging choices and practical improvement plans.'],
+  ['Smarter distribution', 'A place for verified information about transport and distribution decisions.'],
+];
+---
+
+<BaseLayout
+  title="Sustainability"
+  description="Greenleaf Co’s practical approach to responsible growing, resource use, waste, packaging, and distribution."
+>
+  <main>
+    <section class="bg-botanical-deep text-canvas">
+      <div class="site-container grid gap-10 py-16 md:grid-cols-[1fr_0.8fr] md:items-end md:py-28">
+        <div>
+          <p class="eyebrow !text-sage">Sustainability</p>
+          <h1 class="display-title mt-5">Progress needs proof.</h1>
+        </div>
+        <p class="max-w-2xl text-lg leading-8 text-sage">
+          Sustainability starts with what we can control—and with being precise
+          about what is known. This page is structured for evidence, not broad claims.
+        </p>
+      </div>
+    </section>
+
+    <section class="site-container grid gap-10 py-12 md:grid-cols-[1.1fr_0.9fr] md:items-center md:py-24">
+      <MediaPlaceholder aspect="landscape" label="Growing photography pending" />
+      <div class="md:pl-[6vw]">
+        <p class="eyebrow">Our approach</p>
+        <h2 class="section-title mt-4">Practical choices, clearly explained.</h2>
+        <p class="body-large mt-6">
+          Verified practices, targets, and evidence can be added as the company
+          supplies them. We do not claim certifications, carbon neutrality,
+          zero waste, or production methods without documentation.
+        </p>
+      </div>
+    </section>
+
+    <section class="section-space border-y border-line bg-paper">
+      <div class="site-container">
+        <SectionHeading
+          eyebrow="The framework"
+          title="Five areas for accountable detail."
+          description="These themes organise future sustainability content without presenting unverified activity as fact."
+        />
+        <div class="mt-12 grid border-t border-line md:grid-cols-2">
+          {
+            themes.map(([title, copy], index) => (
+              <article class:list={[
+                'border-b border-line py-8',
+                index % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10',
+              ]}>
+                <p class="text-xs text-muted">{String(index + 1).padStart(2, '0')}</p>
+                <h2 class="mt-6 text-3xl">{title}</h2>
+                <p class="mt-4 max-w-lg leading-7 text-muted">{copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="site-container grid gap-12 lg:grid-cols-[0.75fr_1.25fr]">
+        <p class="eyebrow">Content status</p>
+        <div>
+          <h2 class="section-title">Transparency includes saying what is still to come.</h2>
+          <p class="body-large mt-6">
+            This page currently contains a verified-content framework. Replace
+            these placeholders with approved company information before using
+            them as external sustainability claims.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <QuoteCTA title="Ask a question about our produce." />
+  </main>
+</BaseLayout>

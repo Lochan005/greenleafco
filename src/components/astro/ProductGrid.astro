@@ -1,0 +1,33 @@
+---
+import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
+import ProductCard from '@/components/astro/ProductCard.astro';
+import type { Product } from '@/types/product';
+
+interface Props {
+  products: Product[];
+  emptyMessage?: string;
+}
+
+const {
+  products,
+  emptyMessage = 'Product content is being prepared. Contact our wholesale team for the current range.',
+} = Astro.props;
+---
+
+{
+  products.length > 0 ? (
+    <div class="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map((product) => <ProductCard product={product} />)}
+    </div>
+  ) : (
+    <div class="grid gap-6 border-y border-line py-8 md:grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)] md:items-center">
+      <div class="max-w-xl py-6">
+        <p class="eyebrow">Catalogue placeholder</p>
+        <h3 class="mt-4 text-4xl leading-tight">The produce collection is ready for content.</h3>
+        <p class="mt-5 leading-7 text-muted">{emptyMessage}</p>
+        <a href="/request-a-quote" class="text-link mt-6">Ask about availability</a>
+      </div>
+      <MediaPlaceholder aspect="landscape" label="Product photography pending" />
+    </div>
+  )
+}

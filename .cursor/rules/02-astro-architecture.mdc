@@ -1,0 +1,99 @@
+---
+description: Astro architecture, routing, rendering strategy, component boundaries, islands, and server endpoints
+globs: src/**
+alwaysApply: false
+---
+
+# Astro Architecture
+
+## Rendering strategy
+
+Astro is the primary rendering framework.
+Public content pages should render as HTML-first pages.
+
+Default to static/server-rendered Astro components.
+Use React only when client-side state or interaction is actually required.
+
+Do not convert an entire page to React just because one component is interactive.
+
+## React islands
+
+Good React island candidates:
+- mobile navigation state
+- search/filter interactions
+- quote form with validation/submission state
+- interactive product filters
+- accordions when state must persist client-side
+- other genuinely stateful controls
+
+Do not use React for:
+- headings
+- static product cards
+- static navigation links
+- simple layouts
+- static testimonials
+- static footer
+
+## Routing
+
+Use clear semantic URLs.
+Recommended routes:
+- /
+- /products
+- /products/[slug]
+- /who-we-serve
+- /about
+- /sustainability
+- /journal
+- /journal/[slug]
+- /request-a-quote
+
+Use redirects for any legacy routes rather than duplicating pages.
+
+## Components
+
+Build components around reusable responsibilities.
+
+Prefer:
+- `Header.astro`
+- `Footer.astro`
+- `Hero.astro`
+- `SectionHeading.astro`
+- `ProductCard.astro`
+- `ProductGrid.astro`
+- `ProductBadge.astro`
+- `CategoryNav.astro`
+- `SearchBar.tsx`
+- `ProductFilters.tsx`
+- `QuoteForm.tsx`
+- `QuoteCTA.astro`
+- `RecipeCard.astro`
+- `Testimonial.astro`
+
+Do not create one-off components for trivial markup unless it improves reuse or readability.
+
+## Data flow
+
+Sanity is the source of truth for managed content.
+
+Flow:
+Sanity -> GROQ query -> Astro page/component -> HTML
+
+For interactive filtering/search, choose the lightest approach that satisfies the requirement.
+Do not introduce a client-side state framework unless complexity genuinely requires it.
+
+## API endpoints
+
+Keep server-only logic in Astro endpoints or server utilities.
+Never expose secrets in client-side code.
+
+Quote endpoint responsibilities should be limited to:
+- validation
+- sanitization
+- spam protection
+- email delivery
+- optional persistence later
+
+## Server/client boundary
+
+Anything involving secrets, Sanity private tokens, email API keys, database credentials, or internal logic must remain server-side.

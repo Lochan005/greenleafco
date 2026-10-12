@@ -1,0 +1,41 @@
+---
+import SiteMenu from '@/components/react/SiteMenu';
+import { secondaryNav, siteName } from '@/lib/seo/site';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="relative z-40 border-b border-line bg-canvas/95">
+  <div class="site-container grid min-h-20 grid-cols-[1fr_auto] items-center gap-6 md:grid-cols-[1fr_auto_1fr]">
+    <a
+      href="/"
+      class="w-fit font-display text-2xl leading-none text-botanical no-underline"
+      aria-label={`${siteName} home`}
+    >
+      {siteName}
+    </a>
+
+    <nav aria-label="Primary" class="hidden md:block">
+      <ul class="flex items-center gap-8">
+        <li>
+          <a
+            href="/products"
+            aria-current={currentPath.startsWith('/products') ? 'page' : undefined}
+            class="text-xs font-bold tracking-[0.1em] uppercase no-underline hover:text-accent"
+          >
+            Products
+          </a>
+        </li>
+        <li>
+          <a class="button button-primary" href="/request-a-quote">
+            Request a Quote
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="justify-self-end">
+      <SiteMenu items={secondaryNav} client:load />
+    </div>
+  </div>
+</header>

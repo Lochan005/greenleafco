@@ -1,0 +1,24 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Looking for something specific?',
+  description = 'Tell us what your business needs. Our wholesale team can discuss products, pack sizes, and current availability.',
+} = Astro.props;
+---
+
+<section class="bg-botanical text-canvas">
+  <div class="site-container grid gap-8 py-14 md:grid-cols-[1fr_auto] md:items-end md:py-20">
+    <div>
+      <p class="eyebrow !text-sage">Wholesale enquiries</p>
+      <h2 class="mt-4 max-w-3xl text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95]">{title}</h2>
+      <p class="mt-6 max-w-2xl leading-7 text-sage">{description}</p>
+    </div>
+    <a class="button border border-canvas bg-canvas text-botanical hover:bg-transparent hover:text-canvas" href="/request-a-quote">
+      Request a Quote
+    </a>
+  </div>
+</section>

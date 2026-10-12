@@ -1,0 +1,54 @@
+---
+import JournalCard from '@/components/astro/JournalCard.astro';
+import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
+import QuoteCTA from '@/components/astro/QuoteCTA.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getJournalEntries } from '@/lib/sanity/content';
+
+const entries = await getJournalEntries();
+---
+
+<BaseLayout
+  title="Journal"
+  description="Recipes, culinary techniques, ingredient notes, and inspiration built around specialty fresh produce."
+>
+  <main>
+    <section class="site-container grid gap-10 py-14 md:grid-cols-[1fr_0.75fr] md:items-end md:py-24">
+      <div>
+        <p class="eyebrow">Recipes & inspiration</p>
+        <h1 class="display-title mt-5">The culinary journal.</h1>
+      </div>
+      <p class="body-large">
+        Ingredient-led stories for professional kitchens: preparation ideas,
+        techniques, product notes, and ways to bring distinctive produce onto the menu.
+      </p>
+    </section>
+
+    <section class="section-space border-t border-line">
+      <div class="site-container">
+        {
+          entries.length > 0 ? (
+            <div class="grid gap-x-8 gap-y-14 md:grid-cols-2">
+              {entries.map((entry) => <JournalCard entry={entry} />)}
+            </div>
+          ) : (
+            <div class="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+              <MediaPlaceholder aspect="landscape" tone="earth" label="Journal photography pending" />
+              <div>
+                <p class="eyebrow">Content placeholder</p>
+                <h2 class="section-title mt-4">The first story is waiting to be published.</h2>
+                <p class="body-large mt-6">
+                  Add recipes, ingredient notes, or culinary inspiration in
+                  Sanity Studio. Published entries will appear here automatically.
+                </p>
+                <a class="text-link mt-7" href="/products">Explore produce instead</a>
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    <QuoteCTA title="Inspired by an ingredient?" description="Explore the catalogue, then ask our wholesale team about the produce that fits your menu or operation." />
+  </main>
+</BaseLayout>

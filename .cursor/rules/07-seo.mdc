@@ -1,0 +1,100 @@
+---
+description: Technical SEO, metadata, structured data, URLs, internal linking, sitemap, robots, and crawlability
+globs: src/**
+alwaysApply: false
+---
+
+# SEO
+
+## Core rule
+
+SEO is part of the content architecture, not a layer added at the end.
+
+## Titles and descriptions
+
+Every indexable page should have:
+- unique title
+- useful meta description
+- canonical URL
+- appropriate Open Graph metadata
+
+Titles should describe the actual page, not repeat the company name unnecessarily.
+
+## Heading structure
+
+Use one clear H1 per page.
+Use H2/H3 according to information hierarchy.
+
+Do not create headings for styling purposes only.
+
+## Product SEO
+
+Product pages should have:
+- descriptive product names
+- stable slugs
+- unique descriptions
+- relevant internal links
+- useful image alt text
+- structured data when appropriate
+
+Avoid thin product pages created only to target keywords.
+
+## Target topic language
+
+Use natural language around relevant commercial topics such as:
+- exotic vegetables
+- exotic vegetable supplier
+- premium fresh produce
+- exotic vegetables for restaurants
+- specialty vegetables
+- microgreens supplier
+- fresh produce supplier
+- B2B fresh produce supplier
+
+Do not keyword-stuff.
+
+## URLs
+
+Use short, stable, human-readable URLs.
+Avoid:
+- numeric IDs
+- query-string-only identity
+- unnecessary nested levels
+
+## Internal links
+
+Create purposeful links between:
+- products and categories
+- products and journal content
+- who-we-serve pages and relevant products
+- sustainability content and about/company content
+- product pages and quote CTA
+
+## Technical SEO
+
+Provide where applicable:
+- XML sitemap
+- robots.txt
+- canonical URLs
+- Open Graph metadata
+- favicon/site identity
+- image alt text
+- structured data
+
+Use structured data only when the content genuinely supports it.
+Do not fabricate review, price, stock, or rating data.
+
+## Indexing
+
+Do not accidentally block the main site from indexing in production.
+Preview/staging behavior should be explicit.
+
+## Performance
+
+SEO and performance are linked.
+Prioritize:
+- fast hero rendering
+- optimized images
+- minimal client JavaScript
+- stable layout
+- crawlable content

@@ -1,0 +1,64 @@
+---
+description: Responsive design, mobile-first behavior, breakpoints, fluid layout, and responsive content prioritization
+globs: src/**
+alwaysApply: false
+---
+
+# Responsive Design
+
+## Mobile-first
+
+Design the smallest useful experience first, then expand it.
+Do not treat mobile as a collapsed desktop layout.
+
+## Breakpoints
+
+Use a small number of meaningful breakpoints based on layout needs, not device-name assumptions.
+
+## Typography
+
+Use fluid type where appropriate, but cap extreme sizes.
+Headings must remain readable and should not unexpectedly wrap into awkward orphan lines.
+
+## Images
+
+Images must:
+- preserve important composition
+- use consistent aspect-ratio rules
+- crop intentionally
+- avoid distorted scaling
+
+For important hero imagery, explicitly control object positioning.
+
+## Navigation
+
+Desktop:
+Logo | Products | Request a Quote | Menu
+
+Mobile:
+Logo | Menu
+Optionally include a compact quote CTA when it fits without crowding.
+
+## Product catalogue
+
+On smaller screens:
+- filters may move into a panel/drawer
+- search remains easy to find
+- product cards remain visually strong
+- avoid tiny dense metadata
+
+## Tables and long content
+
+Never allow long content to break the layout.
+Use overflow or restructured layouts appropriately.
+
+## Responsive QA
+
+Every significant section should be checked at:
+- narrow mobile
+- standard mobile
+- tablet
+- laptop
+- wide desktop
+
+Do not rely on one desktop width.

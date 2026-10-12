@@ -1,0 +1,91 @@
+---
+description: Product catalogue UX, filters, product taxonomy, product detail structure, and B2B ecommerce behavior
+globs: src/**
+alwaysApply: false
+---
+
+# Product Catalogue
+
+## Taxonomy
+
+Top-level categories:
+- Exotic Vegetables
+- Herbs
+- Microgreens
+- Leafy Greens
+- Seasonal Produce
+- Specialty Produce
+
+Do not mix categories, growing methods, availability, or marketing badges as though they were the same taxonomy level.
+
+Use attributes/filters for:
+- Growing Method: Hydroponic, Soil-Grown, etc.
+- Availability: Available Now, Seasonal
+- Product status: New Arrival, Chef Favourite
+- Suitable For: Restaurants, Hotels & Hospitality, Retail, Resellers & Distributors
+
+## Catalogue page
+
+Recommended structure:
+1. Hero: concise product-discovery statement
+2. Category navigation
+3. Search and filters
+4. Product grid
+5. Seasonal/available-now collection or useful merchandising block
+6. B2B enquiry CTA
+
+The catalogue should feel like premium B2B ecommerce browsing even though there is no checkout.
+
+## Search
+
+Search should prioritize:
+- product name
+- aliases/alternate names where useful
+- category
+- relevant product metadata
+
+Use debouncing for remote/client search where necessary.
+Do not make search dependent on unnecessary client-side JavaScript if URL-based filtering is sufficient.
+
+## Filters
+
+Filters should remain understandable.
+Avoid exposing internal CMS fields directly to users.
+
+When practical, reflect filters in the URL so states are shareable and crawlable where appropriate.
+
+## Product card behavior
+
+Primary action:
+- View Product
+
+Secondary optional action:
+- Enquire
+
+Do not show:
+- fake inventory counters
+- consumer prices
+- fake reviews
+- cart buttons
+
+## Product detail CTA
+
+The main commercial action should be visible without excessive scrolling.
+Suggested copy:
+- Request a Wholesale Quote
+- Enquire About This Product
+- Ask About Availability
+
+## Availability
+
+Never imply real-time inventory unless an actual inventory source exists.
+Use editorial states such as:
+- Available Now
+- Seasonal
+- Enquire for Current Availability
+
+## Data completeness
+
+Product content should be schema-driven and optional fields should degrade gracefully.
+
+Never create fake technical specifications solely to fill cards or pages.

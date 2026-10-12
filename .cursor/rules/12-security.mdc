@@ -1,0 +1,60 @@
+---
+description: Security rules covering secrets, headers, user input, API routes, dependencies, and deployment boundaries
+globs: src/**
+alwaysApply: false
+---
+
+# Security
+
+## Secrets
+
+Never hard-code secrets.
+Use environment variables and keep secret-bearing values server-side.
+
+Never expose:
+- API keys
+- email provider secrets
+- Sanity private tokens
+- database URLs
+- authentication secrets
+
+## Input
+
+Treat all form and query parameters as untrusted.
+Validate, sanitize, normalize, and bound input sizes.
+
+## Output
+
+Avoid unsafe HTML injection.
+Do not render arbitrary user-provided HTML without a clear sanitization strategy.
+
+## API endpoints
+
+Check:
+- method
+- content type
+- payload size
+- field validity
+- spam/rate limits where needed
+
+Return appropriate status codes without leaking internal details.
+
+## Dependencies
+
+Prefer a small dependency footprint.
+Before adding a package, ask whether the platform or existing stack already solves the problem.
+
+## CMS data
+
+Assume CMS content can be incomplete or malformed.
+Validate assumptions before rendering.
+
+## Security headers
+
+Where practical, configure appropriate production headers such as:
+- Content-Security-Policy where feasible
+- X-Content-Type-Options
+- Referrer-Policy
+- appropriate frame protections
+
+Do not blindly copy a header configuration that breaks Sanity, image CDNs, analytics, or required integrations.

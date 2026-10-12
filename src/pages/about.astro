@@ -1,0 +1,74 @@
+---
+import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
+import QuoteCTA from '@/components/astro/QuoteCTA.astro';
+import SectionHeading from '@/components/astro/SectionHeading.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Learn about Greenleaf Co and its focus on specialty fresh produce for professional buyers."
+>
+  <main>
+    <section class="site-container grid gap-10 py-14 md:grid-cols-[1fr_0.75fr] md:items-end md:py-24">
+      <div>
+        <p class="eyebrow">About Greenleaf Co</p>
+        <h1 class="display-title mt-5">A produce partner, thoughtfully presented.</h1>
+      </div>
+      <p class="body-large">
+        Greenleaf Co is positioned around specialty fresh produce and the needs
+        of professional buyers. Verified company history and operational detail
+        will be added as they are supplied.
+      </p>
+    </section>
+
+    <section class="site-container pb-16 md:pb-28">
+      <MediaPlaceholder aspect="hero" tone="dark" label="Company or growing photography pending" />
+    </section>
+
+    <section class="section-space border-y border-line bg-paper">
+      <div class="site-container grid gap-14 lg:grid-cols-[0.8fr_1.2fr]">
+        <SectionHeading
+          eyebrow="Our role"
+          title="Make distinctive produce easier to understand."
+        />
+        <div class="max-w-3xl space-y-6 text-lg leading-8 text-muted">
+          <p>
+            The catalogue is designed to help professional buyers move from
+            discovery to a useful enquiry without consumer shopping patterns or
+            unsupported stock promises.
+          </p>
+          <p>
+            Product information, culinary relevance, and a direct wholesale
+            conversation sit at the centre of the experience.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="site-container">
+        <SectionHeading
+          eyebrow="Company information"
+          title="A clear place for the facts that matter."
+          description="The content system is prepared for verified sourcing, growing, handling, team, and service information. Until those details are provided, we leave them open rather than inventing a story."
+        />
+        <div class="mt-12 grid gap-8 md:grid-cols-3">
+          {
+            ['Sourcing & growing', 'Handling & quality', 'Service & relationships'].map((title, index) => (
+              <article class="border-t border-line pt-5">
+                <p class="text-xs text-muted">{String(index + 1).padStart(2, '0')}</p>
+                <h2 class="mt-7 text-3xl">{title}</h2>
+                <p class="mt-4 leading-7 text-muted">
+                  Verified client information will be added here.
+                </p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <QuoteCTA title="Start with the produce you need." />
+  </main>
+</BaseLayout>

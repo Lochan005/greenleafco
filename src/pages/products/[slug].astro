@@ -1,0 +1,171 @@
+---
+import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
+import ProductGrid from '@/components/astro/ProductGrid.astro';
+import QuoteCTA from '@/components/astro/QuoteCTA.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getProductBySlug, getProductSlugs } from '@/lib/sanity/content';
+import { sanityImageUrl } from '@/lib/sanity/image';
+import { portableTextParagraphs } from '@/lib/sanity/portableText';
+import type { Product } from '@/types/product';
+
+export async function getStaticPaths() {
+  const slugs = await getProductSlugs();
+  return slugs.map(({ slug }) => ({ params: { slug } }));
+}
+
+const slug = Astro.params.slug;
+const product = slug ? await getProductBySlug(slug) : null;
+
+if (!product) {
+  return Astro.redirect('/products');
+}
+
+const typedProduct = product as Product;
+const paragraphs = portableTextParagraphs(typedProduct.description);
+const heroImage = sanityImageUrl(typedProduct.primaryImage, 1200, 1200);
+const socialImage = sanityImageUrl(
+  typedProduct.seo?.image ?? typedProduct.primaryImage,
+  1200,
+  630,
+);
+const availabilityLabel = {
+  'available-now': 'Available now',
+  seasonal: 'Seasonal',
+  enquire: 'Enquire for current availability',
+  unavailable: 'Currently unavailable',
+}[typedProduct.availability ?? 'enquire'];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: typedProduct.name,
+  description: typedProduct.shortDescription,
+  image: socialImage,
+  category: typedProduct.category?.title,
+};
+---
+
+<BaseLayout
+  title={typedProduct.seo?.title ?? typedProduct.name}
+  description={typedProduct.seo?.description ?? typedProduct.shortDescription ?? `Wholesale information for ${typedProduct.name}.`}
+  image={socialImage}
+  structuredData={structuredData}
+>
+  <main>
+    <div class="site-container pt-6">
+      <nav aria-label="Breadcrumb" class="text-sm text-muted">
+        <ol class="flex flex-wrap gap-2">
+          <li><a href="/" class="hover:text-botanical">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="/products" class="hover:text-botanical">Products</a></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{typedProduct.name}</li>
+        </ol>
+      </nav>
+    </div>
+
+    <section class="site-container grid gap-10 py-10 md:grid-cols-[1.05fr_0.95fr] md:items-start md:py-16">
+      <div>
+        {
+          heroImage ? (
+            <img
+              src={heroImage}
+              alt={typedProduct.primaryImage?.alt || typedProduct.name}
+              width="1200"
+              height="1200"
+              class="aspect-square w-full object-cover"
+            />
+          ) : (
+            <MediaPlaceholder aspect="square" label={`Image pending — ${typedProduct.name}`} />
+          )
+        }
+      </div>
+      <div class="md:sticky md:top-8 md:py-8">
+        {typedProduct.category?.title && <p class="eyebrow">{typedProduct.category.title}</p>}
+        <h1 class="mt-5 font-display text-[clamp(3rem,7vw,6rem)] leading-[0.92] tracking-[-0.04em]">
+          {typedProduct.name}
+        </h1>
+        {typedProduct.shortDescription && (
+          <p class="body-large mt-7">{typedProduct.shortDescription}</p>
+        )}
+        <dl class="mt-8 grid gap-4 border-y border-line py-6 sm:grid-cols-2">
+          <div>
+            <dt class="eyebrow">Availability</dt>
+            <dd class="mt-2">{availabilityLabel}</dd>
+          </div>
+          {typedProduct.growingMethod && (
+            <div>
+              <dt class="eyebrow">Growing method</dt>
+              <dd class="mt-2 capitalize">{typedProduct.growingMethod.replace('-', ' ')}</dd>
+            </div>
+          )}
+        </dl>
+        <a class="button button-primary mt-8" href={`/request-a-quote?product=${encodeURIComponent(typedProduct.name)}`}>
+          Enquire About This Product
+        </a>
+      </div>
+    </section>
+
+    <section class="section-space border-t border-line">
+      <div class="site-container grid gap-12 lg:grid-cols-[0.7fr_1.3fr]">
+        <div>
+          <p class="eyebrow">Product notes</p>
+          <h2 class="mt-4 text-4xl">The useful details.</h2>
+        </div>
+        <div class="grid gap-10">
+          {paragraphs.length > 0 && (
+            <div class="max-w-3xl space-y-5 text-lg leading-8 text-muted">
+              {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+          )}
+          <div class="grid gap-8 sm:grid-cols-2">
+            {typedProduct.packSizes && typedProduct.packSizes.length > 0 && (
+              <section class="border-t border-line pt-5">
+                <h3 class="text-2xl">Pack sizes</h3>
+                <ul class="mt-4 grid gap-2 text-muted">
+                  {typedProduct.packSizes.map((item) => <li>{item}</li>)}
+                </ul>
+              </section>
+            )}
+            {typedProduct.culinaryUses && typedProduct.culinaryUses.length > 0 && (
+              <section class="border-t border-line pt-5">
+                <h3 class="text-2xl">Culinary uses</h3>
+                <ul class="mt-4 grid gap-2 text-muted">
+                  {typedProduct.culinaryUses.map((item) => <li>{item}</li>)}
+                </ul>
+              </section>
+            )}
+            {typedProduct.suitableFor && typedProduct.suitableFor.length > 0 && (
+              <section class="border-t border-line pt-5">
+                <h3 class="text-2xl">Suitable for</h3>
+                <ul class="mt-4 grid gap-2 text-muted">
+                  {typedProduct.suitableFor.map((item) => <li class="capitalize">{item.replaceAll('-', ' ')}</li>)}
+                </ul>
+              </section>
+            )}
+            {typedProduct.storageAndHandling && (
+              <section class="border-t border-line pt-5">
+                <h3 class="text-2xl">Storage & handling</h3>
+                <p class="mt-4 leading-7 text-muted">{typedProduct.storageAndHandling}</p>
+              </section>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {typedProduct.relatedProducts && typedProduct.relatedProducts.length > 0 && (
+      <section class="section-space border-t border-line">
+        <div class="site-container">
+          <p class="eyebrow">Continue exploring</p>
+          <h2 class="section-title mt-4">Related produce.</h2>
+          <div class="mt-10">
+            <ProductGrid products={typedProduct.relatedProducts} />
+          </div>
+        </div>
+      </section>
+    )}
+
+    <QuoteCTA title={`Ask about ${typedProduct.name}`} />
+  </main>
+</BaseLayout>

@@ -1,0 +1,111 @@
+---
+import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
+import QuoteCTA from '@/components/astro/QuoteCTA.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getJournalEntryBySlug, getJournalSlugs } from '@/lib/sanity/content';
+import { sanityImageUrl } from '@/lib/sanity/image';
+import { portableTextParagraphs } from '@/lib/sanity/portableText';
+import type { JournalEntry } from '@/types/journal';
+
+export async function getStaticPaths() {
+  const slugs = await getJournalSlugs();
+  return slugs.map(({ slug }) => ({ params: { slug } }));
+}
+
+const slug = Astro.params.slug;
+const entry = slug ? await getJournalEntryBySlug(slug) : null;
+
+if (!entry) {
+  return Astro.redirect('/journal');
+}
+
+const typedEntry = entry as JournalEntry;
+const paragraphs = portableTextParagraphs(typedEntry.body);
+const heroImage = sanityImageUrl(typedEntry.image, 1440, 960);
+const socialImage = sanityImageUrl(typedEntry.seo?.image ?? typedEntry.image, 1200, 630);
+const publishedDate = typedEntry.publishedAt
+  ? new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(new Date(typedEntry.publishedAt))
+  : undefined;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: typedEntry.title,
+  description: typedEntry.excerpt,
+  image: socialImage,
+  datePublished: typedEntry.publishedAt,
+};
+---
+
+<BaseLayout
+  title={typedEntry.seo?.title ?? typedEntry.title}
+  description={typedEntry.seo?.description ?? typedEntry.excerpt ?? 'A story from the Greenleaf Co culinary journal.'}
+  image={socialImage}
+  type="article"
+  structuredData={structuredData}
+>
+  <main>
+    <article>
+      <header class="site-container grid gap-8 py-14 md:grid-cols-[1fr_0.7fr] md:items-end md:py-24">
+        <div>
+          <p class="eyebrow">Culinary journal</p>
+          <h1 class="mt-5 max-w-4xl font-display text-[clamp(3rem,7vw,6.5rem)] leading-[0.94] tracking-[-0.04em]">
+            {typedEntry.title}
+          </h1>
+        </div>
+        <div>
+          {publishedDate && <p class="text-sm text-muted">{publishedDate}</p>}
+          {typedEntry.excerpt && <p class="body-large mt-4">{typedEntry.excerpt}</p>}
+        </div>
+      </header>
+
+      <div class="site-container">
+        {
+          heroImage ? (
+            <img
+              src={heroImage}
+              alt={typedEntry.image?.alt || typedEntry.title}
+              width="1440"
+              height="960"
+              class="aspect-[3/2] w-full object-cover"
+            />
+          ) : (
+            <MediaPlaceholder aspect="hero" tone="earth" label={`Image pending — ${typedEntry.title}`} />
+          )
+        }
+      </div>
+
+      <div class="site-container grid gap-10 py-16 md:grid-cols-[0.35fr_0.65fr] md:py-24">
+        <aside>
+          <p class="eyebrow">Story</p>
+        </aside>
+        <div class="max-w-3xl space-y-6 text-lg leading-8 text-charcoal">
+          {
+            paragraphs.length > 0 ? (
+              paragraphs.map((paragraph) => <p>{paragraph}</p>)
+            ) : (
+              <p class="text-muted">Article content is being prepared in Sanity Studio.</p>
+            )
+          }
+        </div>
+      </div>
+
+      {typedEntry.relatedProducts && typedEntry.relatedProducts.length > 0 && (
+        <section class="border-t border-line">
+          <div class="site-container grid gap-8 py-12 md:grid-cols-[0.35fr_0.65fr]">
+            <p class="eyebrow">Related produce</p>
+            <ul class="grid gap-3 sm:grid-cols-2">
+              {typedEntry.relatedProducts.map((product) => (
+                <li>
+                  <a class="text-link text-lg" href={`/products/${product.slug}`}>{product.name}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+    </article>
+
+    <QuoteCTA title="Bring the ingredient into your kitchen." />
+  </main>
+</BaseLayout>

@@ -1,0 +1,45 @@
+---
+import QuoteForm from '@/components/react/QuoteForm';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Request a Quote"
+  description="Tell Greenleaf Co what fresh produce your business needs and send a wholesale quote enquiry."
+>
+  <main>
+    <section class="border-b border-line">
+      <div class="site-container grid gap-12 py-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:py-24">
+        <div>
+          <p class="eyebrow">Wholesale enquiries</p>
+          <h1 class="mt-5 max-w-2xl font-display text-[clamp(3rem,7vw,6rem)] leading-[0.94] tracking-[-0.04em]">
+            Tell us what your kitchen or business needs.
+          </h1>
+          <p class="body-large mt-7">
+            Share the produce, quantities, and delivery location you are considering.
+            Our wholesale team can use these details to respond to your enquiry.
+          </p>
+
+          <div class="mt-10 border-t border-line pt-6">
+            <h2 class="font-display text-3xl text-botanical">Useful details to include</h2>
+            <ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted">
+              <li>Products or categories of interest</li>
+              <li>Approximate quantities or pack requirements</li>
+              <li>Your business type and delivery location</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-t border-line pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12">
+          <div class="mb-8">
+            <h2 class="font-display text-3xl text-botanical">Request a quote</h2>
+            <p class="mt-2 text-sm text-muted">
+              Fields marked with an asterisk are required.
+            </p>
+          </div>
+          <QuoteForm client:load />
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

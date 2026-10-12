@@ -1,0 +1,110 @@
+---
+import ProductGrid from '@/components/astro/ProductGrid.astro';
+import ProductCatalogue from '@/components/react/ProductCatalogue';
+import QuoteCTA from '@/components/astro/QuoteCTA.astro';
+import SectionHeading from '@/components/astro/SectionHeading.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCategories, getProducts } from '@/lib/sanity/content';
+import { sanityImageUrl } from '@/lib/sanity/image';
+import { productCategories } from '@/lib/seo/site';
+
+const [products, cmsCategories] = await Promise.all([getProducts(), getCategories()]);
+const categories =
+  cmsCategories.length > 0
+    ? cmsCategories.map(({ title, slug }) => ({ title, slug }))
+    : productCategories.map((title) => ({
+        title,
+        slug: title.toLowerCase().replaceAll(' ', '-'),
+      }));
+
+const catalogueProducts = products.map((product) => ({
+  id: product.id,
+  name: product.name,
+  slug: product.slug,
+  category: product.category?.title,
+  categorySlug: product.category?.slug,
+  shortDescription: product.shortDescription,
+  availability: product.availability,
+  growingMethod: product.growingMethod,
+  suitableFor: product.suitableFor,
+  imageUrl: sanityImageUrl(product.primaryImage, 720, 900),
+  imageAlt: product.primaryImage?.alt,
+}));
+---
+
+<BaseLayout
+  title="Products"
+  description="Browse exotic vegetables, herbs, microgreens, leafy greens, seasonal produce, and specialty produce for professional buyers."
+>
+  <main>
+    <section class="site-container grid gap-8 py-14 md:grid-cols-[1fr_0.7fr] md:items-end md:py-24">
+      <div>
+        <p class="eyebrow">Wholesale catalogue</p>
+        <h1 class="display-title mt-5">Explore the range.</h1>
+      </div>
+      <p class="body-large">
+        Browse by product family, availability, and growing method. For pack
+        sizes or current supply details, start a direct wholesale enquiry.
+      </p>
+    </section>
+
+    <section class="border-y border-line bg-paper">
+      <div class="site-container py-8">
+        <nav aria-label="Product categories">
+          <ul class="flex snap-x gap-3 overflow-x-auto pb-2">
+            {
+              categories.map((category) => (
+                <li class="shrink-0 snap-start">
+                  <a
+                    class="inline-flex min-h-11 items-center border border-line px-4 text-sm no-underline hover:border-botanical hover:bg-botanical hover:text-canvas"
+                    href={`/products?category=${category.slug}`}
+                  >
+                    {category.title}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <section class="section-space">
+      <div class="site-container">
+        <SectionHeading
+          eyebrow="Product discovery"
+          title="Find the right ingredient."
+          description="Availability labels are editorial guidance rather than live stock levels. Confirm current supply with the wholesale team."
+        />
+        <div class="mt-10">
+          {
+            products.length > 0 ? (
+              <ProductCatalogue
+                products={catalogueProducts}
+                categories={categories}
+                client:load
+              />
+            ) : (
+              <ProductGrid products={[]} />
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-line bg-paper">
+      <div class="site-container grid gap-10 py-14 md:grid-cols-[0.8fr_1.2fr] md:items-center md:py-20">
+        <p class="eyebrow">Seasonal & available now</p>
+        <div>
+          <h2 class="section-title">A timely view, without pretending stock is live.</h2>
+          <p class="body-large mt-5">
+            Seasonal and available-now labels help guide discovery. They are not
+            inventory guarantees; the team will confirm current availability when you enquire.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <QuoteCTA title="Need help shaping your produce list?" />
+  </main>
+</BaseLayout>

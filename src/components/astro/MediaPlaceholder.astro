@@ -1,0 +1,51 @@
+---
+interface Props {
+  label?: string;
+  aspect?: 'hero' | 'portrait' | 'square' | 'landscape';
+  tone?: 'sage' | 'earth' | 'dark';
+  class?: string;
+}
+
+const {
+  label = 'Photography to be supplied',
+  aspect = 'landscape',
+  tone = 'sage',
+  class: className,
+} = Astro.props;
+
+const aspectClasses = {
+  hero: 'aspect-[4/3] md:aspect-[16/9]',
+  portrait: 'aspect-[4/5]',
+  square: 'aspect-square',
+  landscape: 'aspect-[3/2]',
+};
+
+const toneClasses = {
+  sage: 'bg-sage text-botanical-deep',
+  earth: 'bg-accent-soft text-charcoal',
+  dark: 'bg-botanical text-canvas',
+};
+---
+
+<div
+  role="img"
+  aria-label={label}
+  class:list={[
+    'relative isolate grid overflow-hidden',
+    aspectClasses[aspect],
+    toneClasses[tone],
+    className,
+  ]}
+>
+  <div
+    aria-hidden="true"
+    class="absolute -top-[18%] -right-[8%] aspect-square w-[62%] rounded-full border border-current/25"
+  ></div>
+  <div
+    aria-hidden="true"
+    class="absolute -bottom-[35%] -left-[10%] aspect-square w-[72%] rotate-12 rounded-[45%_55%_40%_60%] border border-current/20"
+  ></div>
+  <p class="relative mt-auto p-5 text-[0.65rem] font-bold tracking-[0.14em] uppercase opacity-75">
+    {label}
+  </p>
+</div>

@@ -1,0 +1,69 @@
+---
+description: Accessibility rules for semantic HTML, keyboard navigation, focus, forms, imagery, contrast, and motion
+globs: src/**
+alwaysApply: false
+---
+
+# Accessibility
+
+## Semantic HTML
+
+Prefer semantic elements:
+- header
+- nav
+- main
+- section
+- article
+- footer
+- button
+- form
+- label
+
+Do not use clickable divs when a button or link is correct.
+
+## Keyboard navigation
+
+All interactive elements must be keyboard accessible.
+
+Focus states must remain clearly visible.
+Do not remove browser focus outlines without providing a strong equivalent.
+
+## Navigation
+
+The menu must:
+- be keyboard accessible
+- trap focus appropriately when implemented as a modal/drawer
+- close with Escape where appropriate
+- expose clear names to assistive technology
+
+## Forms
+
+Every field must have an accessible label.
+Errors must be associated with the relevant field.
+Do not rely only on color to show errors.
+
+## Images
+
+Use meaningful alt text for informative images.
+Use empty alt text for purely decorative images.
+Do not stuff keywords into alt text.
+
+## Contrast
+
+Text and controls must maintain readable contrast.
+Do not sacrifice readability for brand colors.
+
+## Motion
+
+Respect `prefers-reduced-motion`.
+Avoid essential information that exists only inside animation.
+
+## Touch targets
+
+Interactive mobile controls must be comfortably tappable.
+
+## Screen readers
+
+Use visually hidden labels where needed.
+Do not add ARIA when semantic HTML already provides the behavior.
+Use ARIA to enhance semantics, not to compensate for poor HTML.
