@@ -1,6 +1,6 @@
 import { PUBLIC_SITE_URL } from 'astro:env/client';
 
-export const siteName = 'Greenleaf Co';
+export const siteName = 'Greenleaf Company';
 
 export const wholesalePhone = {
   display: '+91 9972822077',
