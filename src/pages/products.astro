@@ -6,7 +6,7 @@ import SectionHeading from '@/components/astro/SectionHeading.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCategories, getProducts } from '@/lib/sanity/content';
 import { sanityImageUrl } from '@/lib/sanity/image';
-import { productCategories } from '@/lib/seo/site';
+import { categoryTitleToSlug, productCategories } from '@/lib/seo/site';
 
 const [products, cmsCategories] = await Promise.all([getProducts(), getCategories()]);
 const categories =
@@ -14,7 +14,7 @@ const categories =
     ? cmsCategories.map(({ title, slug }) => ({ title, slug }))
     : productCategories.map((title) => ({
         title,
-        slug: title.toLowerCase().replaceAll(' ', '-'),
+        slug: categoryTitleToSlug(title),
       }));
 
 const catalogueProducts = products.map((product) => ({

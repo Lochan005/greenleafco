@@ -27,7 +27,13 @@ export const productCategories = [
   'Leafy Greens',
   'Seasonal Produce',
   'Specialty Produce',
+  "Nature's Sweets",
 ] as const;
+
+/** Fallback catalogue slug when CMS category documents are not yet published. */
+export function categoryTitleToSlug(title: string): string {
+  return title.toLowerCase().replace(/'/g, '').replaceAll(' ', '-');
+}
 
 export function canonicalUrl(pathname: string): string | undefined {
   if (!PUBLIC_SITE_URL) {

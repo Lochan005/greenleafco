@@ -54,12 +54,13 @@ Create one document for each name. Hydroponic is not a category.
 | Leafy Greens | `leafy-greens` |
 | Seasonal Produce | `seasonal-produce` |
 | Specialty Produce | `specialty-produce` |
+| Nature's Sweets | `natures-sweets` |
 
 For each category:
 
 | Field | Required | Limit | What to supply |
 | --- | --- | --- | --- |
-| Category name | Yes | Fixed list above | One of the six names |
+| Category name | Yes | Fixed list above | One of the seven names |
 | URL slug | Yes | Lowercase, stable | Generate from the name, then leave it unchanged |
 | Short description | Yes | 20–180 characters | What this group contains for a professional buyer |
 | Category image | No | One image plus alt text | Stored only. The site does not show category images yet. |

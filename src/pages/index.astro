@@ -5,7 +5,7 @@ import ProductGrid from '@/components/astro/ProductGrid.astro';
 import QuoteCTA from '@/components/astro/QuoteCTA.astro';
 import SectionHeading from '@/components/astro/SectionHeading.astro';
 import { siteName } from '@/lib/seo/site';
-import { productCategories } from '@/lib/seo/site';
+import { categoryTitleToSlug, productCategories } from '@/lib/seo/site';
 import { getFeaturedProducts, getHomepage, getJournalEntries } from '@/lib/sanity/content';
 import { sanityImageUrl } from '@/lib/sanity/image';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -70,14 +70,14 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
       <div class="site-container">
         <SectionHeading
           eyebrow="The range"
-          title="Six ways into a more distinctive menu."
+          title="Seven ways into a more distinctive menu."
           description="Browse the catalogue by produce family, then enquire about the products and formats that fit your operation."
         />
         <div class="mt-12 grid border-t border-line sm:grid-cols-2 lg:grid-cols-3">
           {
             productCategories.map((category, index) => (
               <a
-                href={`/products?category=${encodeURIComponent(category.toLowerCase().replaceAll(' ', '-'))}`}
+                href={`/products?category=${encodeURIComponent(categoryTitleToSlug(category))}`}
                 class="group border-b border-line py-7 pr-5 no-underline sm:odd:border-r sm:even:pl-6 lg:border-r lg:pl-6 lg:first:pl-0 lg:nth-[3n]:border-r-0"
               >
                 <span class="text-xs text-muted">{String(index + 1).padStart(2, '0')}</span>
