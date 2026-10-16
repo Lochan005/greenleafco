@@ -8,6 +8,7 @@ export const categoryNames = [
   'Leafy Greens',
   'Seasonal Produce',
   'Specialty Produce',
+  "Nature's Sweets",
 ] as const
 
 export const category = defineType({
@@ -15,13 +16,14 @@ export const category = defineType({
   title: 'Product category',
   type: 'document',
   description:
-    'One of the six top-level catalogue categories. Growing methods such as Hydroponic belong on products, not here.',
+    'One of the seven top-level catalogue categories. Growing methods such as Hydroponic belong on products, not here.',
   fields: [
     defineField({
       name: 'title',
       title: 'Category name',
       type: 'string',
-      description: 'Choose a fixed top-level category.',
+      description:
+        'Pick one name from the list (do not type a custom name). Create a separate category document for each list item—for example, one document with Nature\'s Sweets.',
       options: {
         list: categoryNames.map((name) => ({title: name, value: name})),
         layout: 'dropdown',
