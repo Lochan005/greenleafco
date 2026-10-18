@@ -5,7 +5,12 @@ import ProductGrid from '@/components/astro/ProductGrid.astro';
 import QuoteCTA from '@/components/astro/QuoteCTA.astro';
 import SectionHeading from '@/components/astro/SectionHeading.astro';
 import { siteName } from '@/lib/seo/site';
-import { categoryTitleToSlug, productCategories } from '@/lib/seo/site';
+import {
+  categoryMenuImages,
+  categoryTitleToSlug,
+  productCategories,
+  publicAssetPath,
+} from '@/lib/seo/site';
 import { getFeaturedProducts, getHomepage, getJournalEntries } from '@/lib/sanity/content';
 import { sanityImageUrl } from '@/lib/sanity/image';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -78,11 +83,27 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
             productCategories.map((category, index) => (
               <a
                 href={`/products?category=${encodeURIComponent(categoryTitleToSlug(category))}`}
-                class="group border-b border-line py-7 pr-5 no-underline sm:odd:border-r sm:even:pl-6 lg:border-r lg:pl-6 lg:first:pl-0 lg:nth-[3n]:border-r-0"
+                class="group relative flex min-h-64 flex-col overflow-hidden border-b border-line no-underline sm:odd:border-r sm:even:pl-0 lg:border-r lg:nth-[3n]:border-r-0"
               >
-                <span class="text-xs text-muted">{String(index + 1).padStart(2, '0')}</span>
-                <h3 class="mt-8 text-3xl leading-tight text-botanical">{category}</h3>
-                <span class="mt-5 inline-block text-sm font-bold group-hover:translate-x-1">Explore →</span>
+                <img
+                  src={publicAssetPath(categoryMenuImages[category])}
+                  alt=""
+                  width={800}
+                  height={600}
+                  loading={index < 3 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out motion-reduce:transition-none group-hover:scale-105 motion-reduce:group-hover:scale-100"
+                />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-canvas/90 from-25% via-canvas/25 via-55% to-transparent"
+                  aria-hidden="true"
+                />
+                <div class="relative flex min-h-64 flex-1 flex-col justify-between px-5 py-7 sm:even:pl-6 lg:px-6 lg:first:pl-0">
+                  <span class="text-xs text-muted">{String(index + 1).padStart(2, '0')}</span>
+                  <div class="text-center">
+                    <h3 class="text-3xl leading-tight text-botanical">{category}</h3>
+                  </div>
+                </div>
               </a>
             ))
           }

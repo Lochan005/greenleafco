@@ -1,3 +1,4 @@
+import { siteName } from '@/lib/seo/site';
 import { useEffect, useRef, useState } from 'react';
 
 interface NavItem {
@@ -88,7 +89,7 @@ export default function SiteMenu({ items }: Props) {
         >
           <div className="flex shrink-0 items-center justify-between border-b border-canvas/20 px-6 py-5">
             <a href="/" className="font-display text-xl no-underline">
-              Greenleaf Co
+              {siteName}
             </a>
             <button
               type="button"

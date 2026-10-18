@@ -40,7 +40,7 @@ Upload real photographs. Every image also needs alternative text that describes 
 | Journal card and article | Landscape, 3:2 | 1800 × 1200 px |
 | Social sharing image | Landscape, about 1.91:1 | 1200 × 630 px |
 
-The first product gallery image is the catalogue image. Drag gallery images to set their order. You can upload up to 10 images per product.
+The first product gallery image is the catalogue image. Drag gallery images to set their order. You can upload up to 10 images per product. Gallery images may be omitted when entering text first; add them before the product is customer-ready. The site shows an “Image pending” placeholder when the gallery is empty.
 
 ## 1. Product categories
 
@@ -99,10 +99,10 @@ Hide from search engines: yes / no
 | --- | --- | --- | --- |
 | Product name | Yes | 2–100 characters | Cards, product page heading, enquiry link |
 | URL slug | Yes | Lowercase, stable | `/products/[slug]` |
-| Category | Yes | One of the six categories | Card label and filters |
+| Category | Yes | One of the seven categories | Card label and filters |
 | Short description | Yes | 20–180 characters | Cards and the summary under the product name |
 | Full description | No | Rich text | Product page. Headings inside the text are shown as paragraphs. |
-| Gallery | Yes | 1–10 images | First image on the card and product page. Further images are stored only. |
+| Gallery | No (recommended before go-live) | 0–10 images | First image on the card and product page. Empty gallery is allowed for import; further images are stored only. |
 | Availability | Yes | One option | Card and product page. This is editorial guidance, not live stock. |
 | Seasonal product | No | Yes or no | Stored only |
 | Growing method | No | Hydroponic, Soil grown, or Other verified method | Product page and catalogue filter |
@@ -114,6 +114,8 @@ Hide from search engines: yes / no
 | Related products | No | Up to 6 other products | Product page |
 | Featured product | No | Yes or no | Homepage featured area when the Homepage document has no featured list |
 | Search and social | No | See below | Product page title, description, and share image |
+
+After bulk text import and the image pass, restore required gallery validation in `studio/schemaTypes/documents/product.ts` (`rule.required().min(1).max(10)`) so new products cannot publish without at least one image.
 
 ## 3. Journal entries
 

@@ -30,6 +30,21 @@ export const productCategories = [
   "Nature's Sweets",
 ] as const;
 
+/** Static menu imagery in `/public`, keyed by category title. */
+export const categoryMenuImages = {
+  'Exotic Vegetables': 'Exotic Vegetables.jpg',
+  Herbs: 'Herbs.png',
+  Microgreens: 'Microgreens.png',
+  'Leafy Greens': 'Leafy Greens.png',
+  'Seasonal Produce': 'Seasonal Produce.jpg',
+  'Specialty Produce': 'Speciality Produce.jpg',
+  "Nature's Sweets": "Nature's Sweets.png",
+} as const satisfies Record<(typeof productCategories)[number], string>;
+
+export function publicAssetPath(filename: string): string {
+  return `/${encodeURIComponent(filename)}`;
+}
+
 /** Fallback catalogue slug when CMS category documents are not yet published. */
 export function categoryTitleToSlug(title: string): string {
   return title.toLowerCase().replace(/'/g, '').replaceAll(' ', '-');
