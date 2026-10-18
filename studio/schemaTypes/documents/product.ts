@@ -65,9 +65,10 @@ export const product = defineType({
       title: 'Gallery',
       type: 'array',
       group: 'overview',
-      description: 'The first image is the main catalogue image. Drag to control gallery order.',
+      description:
+        'Optional during bulk text import. The first image is the main catalogue image once added. Drag to control gallery order. The public site shows a placeholder until at least one image exists.',
       of: [defineArrayMember({type: 'productImage'})],
-      validation: (rule) => rule.required().min(1).max(10),
+      validation: (rule) => rule.max(10),
     }),
     defineField({
       name: 'availability',
