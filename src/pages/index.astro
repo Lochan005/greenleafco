@@ -95,13 +95,17 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
                   class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out motion-reduce:transition-none group-hover:scale-105 motion-reduce:group-hover:scale-100"
                 />
                 <div
-                  class="absolute inset-0 bg-gradient-to-t from-canvas/90 from-25% via-canvas/25 via-55% to-transparent"
+                  class="absolute inset-0 bg-gradient-to-t from-canvas/90 from-25% via-canvas/25 via-55% to-transparent opacity-100 transition-opacity duration-500 ease-out motion-reduce:transition-none group-hover:opacity-0 motion-reduce:group-hover:opacity-100"
                   aria-hidden="true"
                 />
                 <div class="relative flex min-h-64 flex-1 flex-col justify-between px-5 py-7 sm:even:pl-6 lg:px-6 lg:first:pl-0">
-                  <span class="text-xs text-muted">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="text-xs text-muted transition-[text-shadow] duration-500 group-hover:[text-shadow:0_1px_18px_rgb(246_241_231_/_0.95),0_0_1px_rgb(246_241_231_/_0.9)]">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
                   <div class="text-center">
-                    <h3 class="text-3xl leading-tight text-botanical">{category}</h3>
+                    <h3 class="text-3xl leading-tight text-botanical transition-[text-shadow] duration-500 group-hover:[text-shadow:0_2px_24px_rgb(246_241_231_/_0.95),0_0_2px_rgb(246_241_231_/_0.9)]">
+                      {category}
+                    </h3>
                   </div>
                 </div>
               </a>
