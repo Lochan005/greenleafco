@@ -4,6 +4,11 @@ import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
 import QuoteCTA from '@/components/astro/QuoteCTA.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getJournalEntries } from '@/lib/sanity/content';
+import { journalEnabled } from '@/lib/seo/site';
+
+if (!journalEnabled) {
+  return Astro.redirect('/404');
+}
 
 const entries = await getJournalEntries();
 ---

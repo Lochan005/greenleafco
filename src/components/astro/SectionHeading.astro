@@ -11,7 +11,7 @@ const { eyebrow, title, description, align = 'left' } = Astro.props;
 
 <div class:list={['max-w-3xl', align === 'center' && 'mx-auto text-center']}>
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <h2 class:list={['section-title', eyebrow && 'mt-4', align === 'center' && 'mx-auto']}>
+  <h2 class:list={['section-title', eyebrow && 'mt-2.5', align === 'center' && 'mx-auto']}>
     {title}
   </h2>
   {description && (

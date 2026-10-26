@@ -2,6 +2,9 @@ import { PUBLIC_SITE_URL } from 'astro:env/client';
 
 export const siteName = 'Greenleaf Company';
 
+/** Set to true when the journal should appear in nav, sitemap, and public routes. */
+export const journalEnabled = false;
+
 export const wholesalePhone = {
   display: '+91 9972822077',
   href: 'tel:+919972822077',
@@ -14,7 +17,7 @@ export const primaryNav = [
 
 export const secondaryNav = [
   { href: '/who-we-serve', label: 'Who We Serve' },
-  { href: '/journal', label: 'Journal' },
+  ...(journalEnabled ? [{ href: '/journal' as const, label: 'Journal' as const }] : []),
   { href: '/about', label: 'About' },
   { href: '/sustainability', label: 'Sustainability' },
   { href: '/request-a-quote', label: 'Request a Quote' },

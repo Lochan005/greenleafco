@@ -6,10 +6,18 @@ import { getJournalEntryBySlug, getJournalSlugs } from '@/lib/sanity/content';
 import { sanityImageUrl } from '@/lib/sanity/image';
 import { portableTextParagraphs } from '@/lib/sanity/portableText';
 import type { JournalEntry } from '@/types/journal';
+import { journalEnabled } from '@/lib/seo/site';
 
 export async function getStaticPaths() {
+  if (!journalEnabled) {
+    return [];
+  }
   const slugs = await getJournalSlugs();
   return slugs.map(({ slug }) => ({ params: { slug } }));
+}
+
+if (!journalEnabled) {
+  return Astro.redirect('/404');
 }
 
 const slug = Astro.params.slug;

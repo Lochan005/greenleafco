@@ -1,7 +1,9 @@
 ---
 import Footer from '@/components/astro/Footer.astro';
 import Header from '@/components/astro/Header.astro';
+import VideoSplash from '@/components/react/VideoSplash';
 import '@/styles/global.css';
+import { splashVideoEnabled } from '@/lib/content/splashVideo';
 import { canonicalUrl, siteName } from '@/lib/seo/site';
 
 interface Props {
@@ -68,5 +70,6 @@ const canonical = canonicalUrl(Astro.url.pathname);
       <slot />
     </div>
     <Footer />
+    {splashVideoEnabled && <VideoSplash client:load />}
   </body>
 </html>

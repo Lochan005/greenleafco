@@ -4,28 +4,31 @@ import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
 import ProductGrid from '@/components/astro/ProductGrid.astro';
 import QuoteCTA from '@/components/astro/QuoteCTA.astro';
 import SectionHeading from '@/components/astro/SectionHeading.astro';
-import { siteName } from '@/lib/seo/site';
 import {
   categoryMenuImages,
   categoryTitleToSlug,
+  journalEnabled,
   productCategories,
   publicAssetPath,
+  siteName,
 } from '@/lib/seo/site';
 import { getFeaturedProducts, getHomepage, getJournalEntries } from '@/lib/sanity/content';
 import { sanityImageUrl } from '@/lib/sanity/image';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-const [fallbackProducts, fallbackJournalEntries, homepage] = await Promise.all([
+const [fallbackProducts, homepage, fallbackJournalEntries] = await Promise.all([
   getFeaturedProducts(),
-  getJournalEntries(),
   getHomepage(),
+  journalEnabled ? getJournalEntries() : Promise.resolve([]),
 ]);
 const featuredProducts = homepage?.featuredProducts?.length
   ? homepage.featuredProducts
   : fallbackProducts;
-const journalEntries = homepage?.featuredJournalEntries?.length
-  ? homepage.featuredJournalEntries
-  : fallbackJournalEntries;
+const journalEntries = journalEnabled
+  ? homepage?.featuredJournalEntries?.length
+    ? homepage.featuredJournalEntries
+    : fallbackJournalEntries
+  : [];
 const heroImage = sanityImageUrl(homepage?.heroImage, 1200, 1500);
 const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 1200, 630);
 ---
@@ -208,37 +211,41 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
       </div>
     </section>
 
-    <section class="section-space border-t border-line">
-      <div class="site-container">
-        <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <SectionHeading
-            eyebrow="Culinary journal"
-            title="Ideas shaped around the ingredient."
-            description="Recipes, techniques, and product notes can help professional buyers see where distinctive produce fits."
-          />
-          <a class="text-link shrink-0" href="/journal">Visit the journal</a>
-        </div>
-        {
-          journalEntries.length > 0 ? (
-            <div class="mt-12 grid gap-8 md:grid-cols-2">
-              {journalEntries.slice(0, 2).map((entry) => <JournalCard entry={entry} />)}
+    {
+      journalEnabled && (
+        <section class="section-space border-t border-line">
+          <div class="site-container">
+            <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <SectionHeading
+                eyebrow="Culinary journal"
+                title="Ideas shaped around the ingredient."
+                description="Recipes, techniques, and product notes can help professional buyers see where distinctive produce fits."
+              />
+              <a class="text-link shrink-0" href="/journal">Visit the journal</a>
             </div>
-          ) : (
-            <div class="mt-12 grid gap-8 md:grid-cols-2">
-              <MediaPlaceholder aspect="landscape" tone="earth" label="Journal imagery pending" />
-              <div class="self-center py-8">
-                <p class="eyebrow">Content placeholder</p>
-                <h3 class="mt-4 text-4xl">The journal is ready for its first story.</h3>
-                <p class="mt-5 leading-7 text-muted">
-                  Publish recipes, ingredient notes, or kitchen inspiration in Sanity
-                  and they will appear here.
-                </p>
-              </div>
-            </div>
-          )
-        }
-      </div>
-    </section>
+            {
+              journalEntries.length > 0 ? (
+                <div class="mt-12 grid gap-8 md:grid-cols-2">
+                  {journalEntries.slice(0, 2).map((entry) => <JournalCard entry={entry} />)}
+                </div>
+              ) : (
+                <div class="mt-12 grid gap-8 md:grid-cols-2">
+                  <MediaPlaceholder aspect="landscape" tone="earth" label="Journal imagery pending" />
+                  <div class="self-center py-8">
+                    <p class="eyebrow">Content placeholder</p>
+                    <h3 class="mt-4 text-4xl">The journal is ready for its first story.</h3>
+                    <p class="mt-5 leading-7 text-muted">
+                      Publish recipes, ingredient notes, or kitchen inspiration in Sanity
+                      and they will appear here.
+                    </p>
+                  </div>
+                </div>
+              )
+            }
+          </div>
+        </section>
+      )
+    }
 
     <QuoteCTA
       title={homepage?.quoteCtaHeading}

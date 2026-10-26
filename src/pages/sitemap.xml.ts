@@ -1,4 +1,5 @@
 import { getJournalSlugs, getProductSlugs } from '@/lib/sanity/content';
+import { journalEnabled } from '@/lib/seo/site';
 import type { APIRoute } from 'astro';
 import { PUBLIC_SITE_URL } from 'astro:env/client';
 
@@ -10,7 +11,7 @@ const staticPaths = [
   '/who-we-serve',
   '/about',
   '/sustainability',
-  '/journal',
+  ...(journalEnabled ? ['/journal'] : []),
   '/request-a-quote',
 ];
 
@@ -26,13 +27,13 @@ function escapeXml(value: string): string {
 export const GET: APIRoute = async ({ request }) => {
   const [productSlugs, journalSlugs] = await Promise.all([
     getProductSlugs(),
-    getJournalSlugs(),
+    journalEnabled ? getJournalSlugs() : Promise.resolve([]),
   ]);
   const baseUrl = (PUBLIC_SITE_URL || new URL(request.url).origin).replace(/\/$/, '');
   const paths = [
     ...staticPaths,
     ...productSlugs.map(({ slug }) => `/products/${slug}`),
-    ...journalSlugs.map(({ slug }) => `/journal/${slug}`),
+    ...(journalEnabled ? journalSlugs.map(({ slug }) => `/journal/${slug}`) : []),
   ];
   const urls = paths
     .map((path) => `<url><loc>${escapeXml(`${baseUrl}${path}`)}</loc></url>`)
