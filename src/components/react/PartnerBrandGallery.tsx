@@ -219,7 +219,7 @@ export default function PartnerBrandGallery({ categories }: Props) {
           {visibleBrands.map((brand) => (
             <li
               key={brand.id}
-              className="group relative z-0 min-w-0 bg-canvas transition-[transform,box-shadow] duration-300 ease-out will-change-transform hover:z-20 hover:scale-[1.035] hover:shadow-[0_18px_40px_-22px_rgba(20,40,31,0.35)] motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:hover:shadow-none max-[hover:none]:hover:scale-100 max-[hover:none]:hover:shadow-none"
+              className="group relative z-0 min-w-0 bg-canvas transition-[transform,box-shadow] duration-300 ease-out will-change-transform hover:z-20 hover:scale-[1.035] hover:shadow-[0_18px_40px_-22px_rgba(20,40,31,0.35)] motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:hover:shadow-none"
             >
               <PartnerBrandLogo name={brand.name} logoSrc={partnerLogoSrc(brand.id)} />
             </li>
