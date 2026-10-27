@@ -1,3 +1,4 @@
+/** Partner lists for the Who We Serve brand gallery. */
 export type PartnerCategoryId =
   | 'hospitality'
   | 'retail-commerce'
