@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^7.0.1",
-    "@astrojs/vercel": "^11.0.13",
+    "@astrojs/vercel": "^11.0.14",
     "@sanity/client": "^8.9.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.8",
