@@ -1,9 +1,13 @@
 ---
 import JournalCard from '@/components/astro/JournalCard.astro';
 import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
-import ProductGrid from '@/components/astro/ProductGrid.astro';
 import QuoteCTA from '@/components/astro/QuoteCTA.astro';
 import SectionHeading from '@/components/astro/SectionHeading.astro';
+import {
+  splashVideoMp4,
+  splashVideoPoster,
+  splashVideoWebm,
+} from '@/lib/content/splashVideo';
 import {
   categoryMenuImages,
   categoryTitleToSlug,
@@ -12,24 +16,19 @@ import {
   publicAssetPath,
   siteName,
 } from '@/lib/seo/site';
-import { getFeaturedProducts, getHomepage, getJournalEntries } from '@/lib/sanity/content';
+import { getHomepage, getJournalEntries } from '@/lib/sanity/content';
 import { sanityImageUrl } from '@/lib/sanity/image';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-const [fallbackProducts, homepage, fallbackJournalEntries] = await Promise.all([
-  getFeaturedProducts(),
+const [homepage, fallbackJournalEntries] = await Promise.all([
   getHomepage(),
   journalEnabled ? getJournalEntries() : Promise.resolve([]),
 ]);
-const featuredProducts = homepage?.featuredProducts?.length
-  ? homepage.featuredProducts
-  : fallbackProducts;
 const journalEntries = journalEnabled
   ? homepage?.featuredJournalEntries?.length
     ? homepage.featuredJournalEntries
     : fallbackJournalEntries
   : [];
-const heroImage = sanityImageUrl(homepage?.heroImage, 1200, 1500);
 const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 1200, 630);
 ---
 
@@ -39,39 +38,42 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
   image={socialImage}
 >
   <main>
-    <section class="site-container grid items-center gap-5 overflow-hidden py-4 md:h-[calc(100svh-5rem)] md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-stretch md:gap-8 md:py-5">
-      <div>
-        <p class="eyebrow">{homepage?.eyebrow ?? 'Premium produce · Professional supply'}</p>
-        <h1 class="display-title mt-3 text-[clamp(2.75rem,4.4vw,5.5rem)]">
-          {homepage?.heading ?? 'Produce with presence.'}
-        </h1>
-        <p class="body-large mt-4">
-          {homepage?.introduction ?? 'An expressive range of exotic vegetables and specialty fresh produce, presented for chefs, hospitality teams, retailers, and professional buyers.'}
-        </p>
-        <div class="mt-5 flex flex-wrap gap-3">
-          <a class="button button-primary" href="/products">Explore Our Produce</a>
-          <a class="button button-secondary" href="/request-a-quote">Request a Quote</a>
+    <section class="relative flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-botanical-deep py-16 text-canvas md:py-24">
+      <video
+        class="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="auto"
+        poster={splashVideoPoster}
+      >
+        {splashVideoWebm && <source src={splashVideoWebm} type="video/webm" />}
+        <source src={splashVideoMp4} type="video/mp4" />
+      </video>
+      <div
+        class="pointer-events-none absolute inset-0 bg-gradient-to-r from-charcoal/80 via-charcoal/55 to-charcoal/30"
+        aria-hidden="true"
+      />
+      <div class="site-container relative z-10">
+        <div class="max-w-3xl">
+          <p class="eyebrow !text-sage">Premium Produce for Kitchen Aficionado</p>
+          <h1 class="display-title mt-4 max-w-[18ch] text-[clamp(2.75rem,5vw,5.5rem)] text-canvas">
+            Distinctive Produce. Exceptional Possibilities.
+          </h1>
+          <p class="body-large mt-5 max-w-2xl !text-canvas/90">
+            From exotic vegetables and fresh herbs to microgreens and specialty produce, we supply restaurants, hotels, retailers and food businesses across Bengaluru with ingredients that inspire better menus.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a class="button border border-canvas bg-canvas text-botanical-deep hover:bg-transparent hover:text-canvas" href="/products">
+              Explore Our Produce
+            </a>
+            <a class="button border border-canvas/80 bg-transparent text-canvas hover:border-canvas hover:bg-canvas hover:text-botanical-deep" href="/request-a-quote">
+              Request a Quote
+            </a>
+          </div>
         </div>
       </div>
-      {
-        heroImage ? (
-          <img
-            src={heroImage}
-            alt={homepage?.heroImage?.alt || 'Specialty fresh produce'}
-            width="1200"
-            height="1500"
-            fetchpriority="high"
-            class="aspect-[4/5] w-full object-cover md:aspect-auto md:h-full md:min-h-0 md:max-h-full"
-          />
-        ) : (
-          <MediaPlaceholder
-            aspect="portrait"
-            tone="dark"
-            label="Hero produce photography pending"
-            class="md:aspect-auto md:h-full md:min-h-0 md:max-h-full"
-          />
-        )
-      }
     </section>
 
     <section class="section-space border-y border-line">
@@ -118,25 +120,17 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
       </div>
     </section>
 
-    <section class="section-space">
-      <div class="site-container">
-        <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <SectionHeading
-            eyebrow="Featured produce"
-            title="Ingredients worth a closer look."
-            description="A curated view of products selected in Sanity. Availability is always confirmed through a wholesale enquiry."
-          />
-          <a class="text-link shrink-0" href="/products">View all products</a>
-        </div>
-        <div class="mt-12">
-          <ProductGrid products={featuredProducts} />
-        </div>
-      </div>
-    </section>
-
     <section class="bg-paper">
       <div class="site-container grid gap-10 py-16 md:grid-cols-[0.9fr_1.1fr] md:items-center md:py-28">
-        <MediaPlaceholder aspect="landscape" tone="earth" label="Professional kitchen photography pending" />
+        <img
+          src="/professional-kitchen.jpg"
+          alt="Exotic vegetables, microgreens, and specialty produce in crates on a professional kitchen counter"
+          width="1024"
+          height="559"
+          loading="lazy"
+          decoding="async"
+          class="aspect-[3/2] w-full border border-line object-cover"
+        />
         <div class="md:pl-[8vw]">
           <p class="eyebrow">Who we serve</p>
           <h2 class="section-title mt-4">Selected for people who work with produce.</h2>
@@ -144,39 +138,190 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
             From menu development to retail presentation and distribution, the
             conversation begins with how your business buys, handles, and uses fresh produce.
           </p>
-          <ul class="mt-8 grid gap-3 border-t border-line pt-6 text-lg sm:grid-cols-2">
-            <li>Restaurants & chefs</li>
-            <li>Hotels & hospitality</li>
-            <li>Retail teams</li>
-            <li>Resellers & distributors</li>
+          <ul class="mt-8 grid gap-3 border-t border-line pt-6 sm:grid-cols-2">
+            {
+              [
+                ['01', 'Restaurants & chefs'],
+                ['02', 'Hotels & hospitality'],
+                ['03', 'Retail teams'],
+                ['04', 'Resellers & distributors'],
+              ].map(([number, label]) => (
+                <li class="flex items-baseline gap-3 border border-line bg-canvas px-4 py-3.5 transition-colors duration-200 hover:border-botanical/40">
+                  <span class="text-xs font-bold tracking-[0.12em] text-moss">{number}</span>
+                  <span class="font-display text-xl leading-snug text-botanical">{label}</span>
+                </li>
+              ))
+            }
           </ul>
           <a class="text-link mt-8" href="/who-we-serve">See who we work with</a>
         </div>
       </div>
     </section>
 
-    <section class="section-space">
-      <div class="site-container grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-        <SectionHeading
-          eyebrow="A useful supply relationship"
-          title="Clarity from discovery to enquiry."
-          description="The site is structured around the things professional buyers need to understand: range, suitability, handling, and a direct route to a conversation."
-        />
-        <div class="grid gap-8 sm:grid-cols-2">
-          {
-            [
-              ['01', 'Quality focus', 'Product pages prioritise useful detail and the visual character of each ingredient.'],
-              ['02', 'Range clarity', 'Categories and attributes stay distinct, making the catalogue easier to navigate.'],
-              ['03', 'Culinary relevance', 'Applications and journal content connect produce to practical professional use.'],
-              ['04', 'Direct enquiry', 'A concise wholesale form keeps the next step clear and low friction.'],
-            ].map(([number, title, copy]) => (
-              <article class="border-t border-line pt-5">
-                <p class="text-xs text-muted">{number}</p>
-                <h3 class="mt-7 text-3xl">{title}</h3>
-                <p class="mt-3 leading-7 text-muted">{copy}</p>
-              </article>
-            ))
-          }
+    <section class="relative overflow-hidden bg-[#f8f4e8] py-16 md:py-24">
+      <img
+        src="/delivery/kale-corner.jpg"
+        alt=""
+        width="215"
+        height="120"
+        loading="lazy"
+        decoding="async"
+        aria-hidden="true"
+        class="pointer-events-none absolute bottom-0 left-0 z-0 hidden w-48 select-none md:block lg:w-60"
+      />
+      <div class="site-container relative z-10 grid items-start gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-12">
+        <div class="max-w-md pt-2 md:pb-24">
+          <p class="text-[0.7rem] font-bold tracking-[0.14em] text-[#5c6454] uppercase">
+            Packed thoughtfully. Delivered responsibly.
+          </p>
+          <h2 class="mt-4 font-display text-[clamp(2.5rem,4.5vw,3.85rem)] leading-[1.02] tracking-[-0.03em] text-charcoal">
+            Better choices at every step.
+          </h2>
+          <p class="mt-6 text-[0.98rem] leading-[1.65] text-[#66615b]">
+            From the materials we pack in to the vehicles that bring produce to your
+            door, we make conscious choices to reduce our environmental footprint.
+          </p>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2 sm:gap-5">
+          <!-- Card 1: Compostable packaging -->
+          <article class="relative flex min-h-48 flex-col justify-between overflow-hidden rounded-2xl border border-[#e3dfd3] bg-[#f2f0e4] p-6">
+            <img
+              src="/delivery/compostable.jpg"
+              alt="Compostable packaging container"
+              width="132"
+              height="140"
+              loading="lazy"
+              decoding="async"
+              class="pointer-events-none absolute right-0 bottom-0 h-[92%] w-[46%] object-contain object-right-bottom select-none"
+            />
+            <div
+              class="pointer-events-none absolute inset-y-0 right-[36%] w-12 bg-gradient-to-r from-[#f2f0e4] to-transparent"
+              aria-hidden="true"
+            />
+            <div class="relative z-10 max-w-[60%]">
+              <span
+                class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#b5bf9d] text-white"
+                aria-hidden="true"
+              >
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66l.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8Z" />
+                </svg>
+              </span>
+              <h3 class="mt-3.5 font-display text-[1.45rem] leading-[1.15] text-charcoal">
+                Compostable<br />packaging
+              </h3>
+              <p class="mt-2.5 text-[0.82rem] leading-[1.45] text-[#66615b]">
+                We use compostable packaging options to reduce reliance on single-use materials.
+              </p>
+            </div>
+          </article>
+
+          <!-- Card 2: Recyclable materials -->
+          <article class="relative flex min-h-48 flex-col justify-between overflow-hidden rounded-2xl border border-[#e3dfd3] bg-[#f5efe3] p-6">
+            <img
+              src="/delivery/recyclable.jpg"
+              alt="Recyclable cardboard box with fresh produce"
+              width="126"
+              height="145"
+              loading="lazy"
+              decoding="async"
+              class="pointer-events-none absolute right-0 bottom-0 h-full w-[45%] object-cover object-right-bottom select-none"
+            />
+            <div
+              class="pointer-events-none absolute inset-y-0 right-[35%] w-12 bg-gradient-to-r from-[#f5efe3] to-transparent"
+              aria-hidden="true"
+            />
+            <div class="relative z-10 max-w-[60%]">
+              <span
+                class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#b5bf9d] text-[#1c2819]"
+                aria-hidden="true"
+              >
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5" />
+                  <path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12" />
+                  <path d="m14 16-3 3 3 3" />
+                  <path d="M8.293 13.596 7.196 9.5 3.1 10.598" />
+                  <path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843" />
+                  <path d="m13.378 9.633 4.096 1.098 1.097-4.096" />
+                </svg>
+              </span>
+              <h3 class="mt-3.5 font-display text-[1.45rem] leading-[1.15] text-charcoal">
+                Recyclable<br />materials
+              </h3>
+              <p class="mt-2.5 text-[0.82rem] leading-[1.45] text-[#66615b]">
+                Our recyclable packaging materials support more responsible handling and disposal.
+              </p>
+            </div>
+          </article>
+
+          <!-- Card 3: Electric vehicle deliveries -->
+          <article class="relative flex min-h-48 flex-col justify-between overflow-hidden rounded-2xl border border-[#e3dfd3] bg-[#f3f1e4] p-6">
+            <img
+              src="/delivery/electric-van.jpg"
+              alt="Green Leaf electric delivery van"
+              width="122"
+              height="146"
+              loading="lazy"
+              decoding="async"
+              class="pointer-events-none absolute right-0 bottom-0 h-[95%] w-[44%] object-contain object-right-bottom select-none"
+            />
+            <div
+              class="pointer-events-none absolute inset-y-0 right-[34%] w-12 bg-gradient-to-r from-[#f3f1e4] to-transparent"
+              aria-hidden="true"
+            />
+            <div class="relative z-10 max-w-[60%]">
+              <span
+                class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#b5bf9d] text-white"
+                aria-hidden="true"
+              >
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M13 2L4.09 12.63a1 1 0 0 0 .77 1.64H11v7.73l8.91-10.63a1 1 0 0 0-.77-1.64H13V2Z" />
+                </svg>
+              </span>
+              <h3 class="mt-3.5 font-display text-[1.45rem] leading-[1.15] text-charcoal">
+                Electric vehicle<br />deliveries
+              </h3>
+              <p class="mt-2.5 text-[0.82rem] leading-[1.45] text-[#66615b]">
+                Every Green Leaf delivery is made using electric vehicles, eliminating tailpipe emissions.
+              </p>
+            </div>
+          </article>
+
+          <!-- Card 4: 95% fewer carbon miles -->
+          <article class="relative flex min-h-48 flex-col justify-between overflow-hidden rounded-2xl border border-[#e3dfd3] bg-[#f2f0e4] p-6">
+            <img
+              src="/delivery/carbon-miles.jpg"
+              alt="Forested hills representing reduced carbon emissions"
+              width="150"
+              height="149"
+              loading="lazy"
+              decoding="async"
+              class="pointer-events-none absolute right-0 bottom-0 h-full w-[52%] object-cover object-right-bottom select-none"
+            />
+            <div
+              class="pointer-events-none absolute inset-y-0 right-[38%] w-16 bg-gradient-to-r from-[#f2f0e4] via-[#f2f0e4]/80 to-transparent"
+              aria-hidden="true"
+            />
+            <div class="relative z-10 max-w-[62%]">
+              <span
+                class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#b5bf9d] text-white"
+                aria-hidden="true"
+              >
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                  <path d="M12 13v5" />
+                  <path d="m9.5 15.5 2.5-2.5 2.5 2.5" />
+                </svg>
+              </span>
+              <h3 class="mt-3.5 font-display text-[1.45rem] leading-[1.15] text-charcoal">
+                95% fewer<br />carbon miles
+              </h3>
+              <p class="mt-2.5 text-[0.82rem] leading-[1.45] text-[#66615b]">
+                Our delivery operations are designed to achieve 95% fewer carbon miles, helping reduce emissions on every order.
+              </p>
+            </div>
+          </article>
         </div>
       </div>
     </section>

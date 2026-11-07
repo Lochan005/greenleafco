@@ -1,5 +1,5 @@
 /** Set false to disable the intro splash without removing the component. */
-export const splashVideoEnabled = true;
+export const splashVideoEnabled = false;
 
 export const splashSessionStorageKey = 'greenleaf-splash-seen';
 
