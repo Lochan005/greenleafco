@@ -338,12 +338,20 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
           </p>
           <a class="mt-8 inline-flex text-link !text-canvas" href="/about">About Greenleaf Co</a>
         </div>
-        <MediaPlaceholder aspect="landscape" tone="sage" label="Growing and handling photography pending" />
+        <img
+          src="/source-to-service.jpg"
+          alt="From source to delivery: harvesting, washing, sorting, packing, and delivering fresh produce to partners"
+          width="1200"
+          height="675"
+          loading="lazy"
+          decoding="async"
+          class="aspect-[3/2] w-full border border-canvas/20 object-cover"
+        />
       </div>
     </section>
 
-    <section class="section-space">
-      <div class="site-container grid gap-12 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+    <section class="section-space bg-[#f9f2e8]">
+      <div class="site-container grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
         <div>
           <SectionHeading
             eyebrow="A practical view"
@@ -352,7 +360,15 @@ const socialImage = sanityImageUrl(homepage?.seo?.image ?? homepage?.heroImage, 
           />
           <a class="text-link mt-8" href="/sustainability">Our approach</a>
         </div>
-        <MediaPlaceholder aspect="landscape" label="Sustainability photography pending" />
+        <img
+          src="/sustainability-packaging.jpg"
+          alt="Fresh leafy greens and cherry tomatoes in compostable packaging and recyclable materials"
+          width="529"
+          height="365"
+          loading="lazy"
+          decoding="async"
+          class="w-full object-contain"
+        />
       </div>
     </section>
 
