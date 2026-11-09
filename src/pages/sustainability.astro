@@ -1,5 +1,4 @@
 ---
-import MediaPlaceholder from '@/components/astro/MediaPlaceholder.astro';
 import QuoteCTA from '@/components/astro/QuoteCTA.astro';
 import SectionHeading from '@/components/astro/SectionHeading.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -32,7 +31,15 @@ const themes = [
     </section>
 
     <section class="site-container grid gap-10 py-12 md:grid-cols-[1.1fr_0.9fr] md:items-center md:py-24">
-      <MediaPlaceholder aspect="landscape" label="Growing photography pending" />
+      <img
+        src="/growing-greenhouse.png"
+        alt="Green Leaf Company team member packing microgreens in a greenhouse"
+        width="1200"
+        height="800"
+        loading="lazy"
+        decoding="async"
+        class="aspect-[3/2] w-full border border-line object-cover"
+      />
       <div class="md:pl-[6vw]">
         <p class="eyebrow">Our approach</p>
         <h2 class="section-title mt-4">Practical choices, clearly explained.</h2>

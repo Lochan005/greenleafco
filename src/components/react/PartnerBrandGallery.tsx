@@ -1,6 +1,10 @@
 import PartnerBrandLogo from '@/components/react/PartnerBrandLogo';
-import type { PartnerCategory, PartnerCategoryId } from '@/lib/content/partnerBrands';
-import { partnerGridVisibleCount, partnerLogoSrc } from '@/lib/content/partnerBrands';
+import type {
+  PartnerBentoShape,
+  PartnerCategory,
+  PartnerCategoryId,
+} from '@/lib/content/partnerBrands';
+import { partnerLogoSrc } from '@/lib/content/partnerBrands';
 import {
   useId,
   useMemo,
@@ -9,32 +13,6 @@ import {
   useSyncExternalStore,
   type KeyboardEvent,
 } from 'react';
-
-function readGalleryColumnCount(): number {
-  if (typeof window === 'undefined') return 4;
-  if (window.matchMedia('(min-width: 1280px)').matches) return 5;
-  if (window.matchMedia('(min-width: 1024px)').matches) return 4;
-  if (window.matchMedia('(min-width: 768px)').matches) return 3;
-  return 2;
-}
-
-function subscribeGalleryColumnCount(onStoreChange: () => void): () => void {
-  const queries = [
-    window.matchMedia('(min-width: 1280px)'),
-    window.matchMedia('(min-width: 1024px)'),
-    window.matchMedia('(min-width: 768px)'),
-  ];
-  queries.forEach((query) => query.addEventListener('change', onStoreChange));
-  return () => queries.forEach((query) => query.removeEventListener('change', onStoreChange));
-}
-
-function useGalleryColumnCount(): number {
-  return useSyncExternalStore(
-    subscribeGalleryColumnCount,
-    readGalleryColumnCount,
-    () => 4,
-  );
-}
 
 function subscribeMinSm(onStoreChange: () => void): () => void {
   const query = window.matchMedia('(min-width: 640px)');
@@ -49,6 +27,13 @@ function useMinSmLayout(): boolean {
     () => true,
   );
 }
+
+const bentoSpanClasses: Record<PartnerBentoShape, string> = {
+  square: 'col-span-1 row-span-1',
+  wide: 'col-span-2 row-span-1',
+  tall: 'col-span-1 row-span-2',
+  feature: 'col-span-2 row-span-2',
+};
 
 interface Props {
   categories: PartnerCategory[];
@@ -68,7 +53,6 @@ export default function PartnerBrandGallery({ categories }: Props) {
   const [hospitalityExpanded, setHospitalityExpanded] = useState(false);
   const [panelFaded, setPanelFaded] = useState(false);
   const categorySwitchTimeout = useRef<number | undefined>(undefined);
-  const columnCount = useGalleryColumnCount();
   const isRowToggleLayout = useMinSmLayout();
 
   const activeCategory = useMemo(
@@ -80,29 +64,15 @@ export default function PartnerBrandGallery({ categories }: Props) {
     if (!activeCategory) return [];
     const { brands, initialVisibleCount, id } = activeCategory;
     if (id === 'hospitality' && initialVisibleCount && !hospitalityExpanded) {
-      const visibleCount = partnerGridVisibleCount(
-        brands.length,
-        initialVisibleCount,
-        columnCount,
-      );
-      return brands.slice(0, visibleCount);
+      return brands.slice(0, initialVisibleCount);
     }
     return brands;
-  }, [activeCategory, columnCount, hospitalityExpanded]);
-
-  const hospitalityCollapsedCount =
-    activeCategory?.id === 'hospitality' && activeCategory.initialVisibleCount
-      ? partnerGridVisibleCount(
-          activeCategory.brands.length,
-          activeCategory.initialVisibleCount,
-          columnCount,
-        )
-      : 0;
+  }, [activeCategory, hospitalityExpanded]);
 
   const showExpandControl =
     activeCategory?.id === 'hospitality' &&
     activeCategory.initialVisibleCount != null &&
-    activeCategory.brands.length > hospitalityCollapsedCount &&
+    activeCategory.brands.length > activeCategory.initialVisibleCount &&
     !hospitalityExpanded;
 
   const selectCategory = (categoryId: PartnerCategoryId) => {
@@ -215,15 +185,22 @@ export default function PartnerBrandGallery({ categories }: Props) {
           Showing {visibleBrands.length} of {activeCategory.brands.length} partners in{' '}
           {activeCategory.title}.
         </p>
-        <ul className="grid grid-cols-2 gap-px overflow-visible border border-line bg-line md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {visibleBrands.map((brand) => (
-            <li
-              key={brand.id}
-              className="group relative z-0 min-w-0 bg-canvas transition-[transform,box-shadow] duration-300 ease-out will-change-transform hover:z-20 hover:scale-[1.035] hover:shadow-[0_18px_40px_-22px_rgba(20,40,31,0.35)] motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:hover:shadow-none"
-            >
-              <PartnerBrandLogo name={brand.name} logoSrc={partnerLogoSrc(brand.id)} />
-            </li>
-          ))}
+        <ul className="grid auto-rows-[10.5rem] grid-flow-dense grid-cols-2 gap-3.5 sm:auto-rows-[11.5rem] md:grid-cols-3 md:gap-4 lg:grid-cols-4">
+          {visibleBrands.map((brand) => {
+            const shape = brand.shape ?? 'square';
+            return (
+              <li
+                key={brand.id}
+                className={`group relative z-0 min-w-0 transition-[transform,box-shadow] duration-300 ease-out will-change-transform hover:z-20 hover:-translate-y-1 hover:shadow-[0_18px_40px_-22px_rgba(20,40,31,0.3)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none ${bentoSpanClasses[shape]}`}
+              >
+                <PartnerBrandLogo
+                  name={brand.name}
+                  logoSrc={partnerLogoSrc(brand.id)}
+                  shape={shape}
+                />
+              </li>
+            );
+          })}
         </ul>
 
         {showExpandControl && activeCategory.expandLabel && (
