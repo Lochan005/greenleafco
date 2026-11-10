@@ -1,7 +1,7 @@
 import { getJournalSlugs, getProductSlugs } from '@/lib/sanity/content';
+import { resolveSiteOrigin } from '@/lib/server/siteOrigin';
 import { journalEnabled } from '@/lib/seo/site';
 import type { APIRoute } from 'astro';
-import { PUBLIC_SITE_URL } from 'astro:env/client';
 
 export const prerender = false;
 
@@ -25,11 +25,18 @@ function escapeXml(value: string): string {
 }
 
 export const GET: APIRoute = async ({ request }) => {
+  const baseUrl = resolveSiteOrigin(request);
+  if (!baseUrl) {
+    return new Response('PUBLIC_SITE_URL is not configured.', {
+      status: 503,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
+  }
+
   const [productSlugs, journalSlugs] = await Promise.all([
     getProductSlugs(),
     journalEnabled ? getJournalSlugs() : Promise.resolve([]),
   ]);
-  const baseUrl = (PUBLIC_SITE_URL || new URL(request.url).origin).replace(/\/$/, '');
   const paths = [
     ...staticPaths,
     ...productSlugs.map(({ slug }) => `/products/${slug}`),

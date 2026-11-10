@@ -53,12 +53,21 @@ export function categoryTitleToSlug(title: string): string {
   return title.toLowerCase().replace(/'/g, '').replaceAll(' ', '-');
 }
 
-export function canonicalUrl(pathname: string): string | undefined {
+/** Canonical origin with no trailing slash (from `PUBLIC_SITE_URL`). */
+export function siteBaseUrl(): string | undefined {
   if (!PUBLIC_SITE_URL) {
     return undefined;
   }
 
-  const base = PUBLIC_SITE_URL.replace(/\/$/, '');
+  return PUBLIC_SITE_URL.replace(/\/$/, '');
+}
+
+export function canonicalUrl(pathname: string): string | undefined {
+  const base = siteBaseUrl();
+  if (!base) {
+    return undefined;
+  }
+
   const path = pathname.startsWith('/') ? pathname : `/${pathname}`;
   return `${base}${path}`;
 }

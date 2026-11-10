@@ -1,8 +1,8 @@
+import { resolveSiteOrigin } from '@/lib/server/siteOrigin';
 import type { APIRoute } from 'astro';
-import { PUBLIC_SITE_URL } from 'astro:env/client';
 
-export const GET: APIRoute = () => {
-  const baseUrl = PUBLIC_SITE_URL?.replace(/\/$/, '');
+export const GET: APIRoute = ({ request }) => {
+  const baseUrl = resolveSiteOrigin(request);
   const lines = ['User-agent: *', 'Allow: /'];
 
   if (baseUrl) {
