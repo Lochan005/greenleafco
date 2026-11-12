@@ -1,13 +1,17 @@
 import react from '@astrojs/react';
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
+import {
+  PRODUCTION_SITE_ORIGIN,
+  configuredSiteOrigin,
+} from './src/lib/seo/siteOrigin.ts';
 import { defineConfig, envField } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 
-const siteUrl = process.env.PUBLIC_SITE_URL;
+const siteUrl = configuredSiteOrigin(process.env.PUBLIC_SITE_URL) ?? PRODUCTION_SITE_ORIGIN;
 
 export default defineConfig({
-  site: siteUrl || undefined,
+  site: siteUrl,
   output: 'static',
   adapter: vercel(),
   integrations: [react()],

@@ -1,5 +1,3 @@
-import { PUBLIC_SITE_URL } from 'astro:env/client';
-
 export const siteName = 'Greenleaf Company';
 
 /** Set to true when the journal should appear in nav, sitemap, and public routes. */
@@ -51,27 +49,4 @@ export function publicAssetPath(filename: string): string {
 /** Fallback catalogue slug when CMS category documents are not yet published. */
 export function categoryTitleToSlug(title: string): string {
   return title.toLowerCase().replace(/'/g, '').replaceAll(' ', '-');
-}
-
-/** Canonical origin with no trailing slash (from `PUBLIC_SITE_URL`). */
-export function siteBaseUrl(): string | undefined {
-  if (!PUBLIC_SITE_URL) {
-    return undefined;
-  }
-
-  return PUBLIC_SITE_URL.replace(/\/$/, '');
-}
-
-export function canonicalUrl(pathname: string): string | undefined {
-  const base = siteBaseUrl();
-  if (!base) {
-    return undefined;
-  }
-
-  const path = pathname.startsWith('/') ? pathname : `/${pathname}`;
-  return `${base}${path}`;
-}
-
-export function absoluteUrl(pathname: string): string | undefined {
-  return canonicalUrl(pathname);
 }

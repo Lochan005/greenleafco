@@ -4,7 +4,8 @@ import Header from '@/components/astro/Header.astro';
 import VideoSplash from '@/components/react/VideoSplash';
 import '@/styles/global.css';
 import { splashVideoEnabled } from '@/lib/content/splashVideo';
-import { canonicalUrl, siteName } from '@/lib/seo/site';
+import { canonicalUrl } from '@/lib/seo/canonical';
+import { siteName } from '@/lib/seo/site';
 
 interface Props {
   title: string;

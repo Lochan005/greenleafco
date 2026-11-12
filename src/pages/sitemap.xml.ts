@@ -26,12 +26,6 @@ function escapeXml(value: string): string {
 
 export const GET: APIRoute = async ({ request }) => {
   const baseUrl = resolveSiteOrigin(request);
-  if (!baseUrl) {
-    return new Response('PUBLIC_SITE_URL is not configured.', {
-      status: 503,
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-    });
-  }
 
   const [productSlugs, journalSlugs] = await Promise.all([
     getProductSlugs(),
